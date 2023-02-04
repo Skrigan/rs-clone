@@ -1,6 +1,9 @@
 const chat = document.querySelector(".chat");
-const ws = new WebSocket("rs-clone-api-production.up.railway.app:8000");
-
+const ws = new WebSocket("ws://rs-clone-api-production.up.railway.app");
+// const ws = new WebSocket("ws://127.0.0.1:3000");
+ws.onopen = () => {
+  console.log(JSON.stringify("connected!"));
+};
 ws.onmessage = (message) => {
   const messages = JSON.parse(message.data) as Array<{name: string, message: string}>;
 
