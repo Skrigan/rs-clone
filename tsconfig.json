@@ -6,7 +6,8 @@
     "module": "es6",
     "target": "es5",
     "lib": ["DOM", "DOM.Iterable", "ES2017"],
-    "allowJs": true
+    "allowJs": true,
+    "moduleResolution": "node",
   },
   "files": ["src/index.ts"]
 }
