@@ -17,8 +17,8 @@ ws.onmessage = (message) => {
   const responce = JSON.parse(message.data) as Message;
   if (responce.method === "connect") {
     clientId = responce.clientId;
+    console.log('clientId: ', clientId)
   }
-
   // messages.forEach(el => {
   responce.messages.forEach(el => {
     const messageEl = document.createElement("div");
