@@ -10,9 +10,9 @@ import * as io from "socket.io-client";
 const socket = io.connect("http://localhost:5000");
 const chat = document.querySelector(".chat");
 
-(socket as any).onmessage = (message: any) => {
+(socket as any).on("message", (message: any) => {
 
-  const messages = JSON.parse(message.data) as Array<{
+  const messages = JSON.parse(message) as Array<{
     name: string;
     message: string;
   }>;
@@ -22,7 +22,7 @@ const chat = document.querySelector(".chat");
     messageEl.innerText = `${el.name}: ${el.message}`;
     chat?.appendChild(messageEl);
   });
-};
+});
 
 const send = (event: Event) => {
   event.preventDefault();
