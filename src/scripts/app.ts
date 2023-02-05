@@ -7,12 +7,11 @@
 
 import * as io from "socket.io-client";
 
-const socket = io.connect("http://localhost:5000");
+const socket: io.Socket = io.connect("http://amusing-yam-production.up.railway.app");
 const chat = document.querySelector(".chat");
+socket.on("message", (message) => {
 
-(socket as any).onmessage = (message: any) => {
-
-  const messages = JSON.parse(message.data) as Array<{
+  const messages = JSON.parse(message) as Array<{
     name: string;
     message: string;
   }>;
@@ -22,7 +21,7 @@ const chat = document.querySelector(".chat");
     messageEl.innerText = `${el.name}: ${el.message}`;
     chat?.appendChild(messageEl);
   });
-};
+});
 
 const send = (event: Event) => {
   event.preventDefault();
