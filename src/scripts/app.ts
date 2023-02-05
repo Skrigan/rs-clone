@@ -7,11 +7,9 @@
 
 import * as io from "socket.io-client";
 
-const socket = io.connect("http://localhost:5000");
+const socket: io.Socket = io.connect("http://amusing-yam-production.up.railway.app");
 const chat = document.querySelector(".chat");
-
-(socket as any).on("message", (message: any) => {
-
+socket.on("message", (message) => {
   const messages = JSON.parse(message) as Array<{
     name: string;
     message: string;
