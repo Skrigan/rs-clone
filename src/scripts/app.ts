@@ -12,7 +12,7 @@ const btnCreate = document.querySelector("#btnCreate")!;
 const btnJoin = document.querySelector("#btnJoin")!;
 const txtGameId = document.querySelector("#txtGameId") as HTMLInputElement;
 const divPlayers = document.querySelector("#divPlayers")!;
-
+const sendBtn = document.querySelector(".submitBtn");
 
 
 let clientId: string;
@@ -23,14 +23,17 @@ let gameId: string;
 
 
 //CREATE GAME
-btnCreate?.addEventListener("click", (e) => {
+btnCreate?.addEventListener("click", createEvent)
+function createEvent() {
   const payLoad = {
     "method": "create",
     "clientId": clientId,
   }
   ws.send(JSON.stringify(payLoad));
-})
-btnJoin?.addEventListener("click", (e) => {
+}
+//JOIN GAME
+btnJoin?.addEventListener("click", joinEvent)
+function joinEvent() {
   if (!gameId) gameId = txtGameId.value;
   const payLoad = {
     "method": "join",
@@ -38,8 +41,27 @@ btnJoin?.addEventListener("click", (e) => {
     "gameId": gameId,
   }
   ws.send(JSON.stringify(payLoad));
+}
+sendBtn?.addEventListener("click", send);
+function send(event: Event) {
+  event.preventDefault();
 
-})
+  const messageInputEl = document.getElementById("message") as HTMLInputElement;
+  const message = messageInputEl.value;
+  // messageInputEl.innerHTML = '';
+
+  // ws.send(JSON.stringify({ name, message }));
+  const payLoad = {
+    "method": "text",
+    "clientId": clientId,
+    "gameId": gameId,
+    "message": message,
+  }
+  ws.send(JSON.stringify(payLoad));
+};
+//TEXT MESSAGE
+
+
 
 ws.onmessage = (message) => {
   // const messages = JSON.parse(message.data) as Array<{name: string, message: string}>;
@@ -53,6 +75,7 @@ ws.onmessage = (message) => {
     case "create": {
       gameId = responce.game.id;
       console.log("gameId: ", gameId);
+      joinEvent();
       break;
     }
     case "join": {
@@ -70,6 +93,14 @@ ws.onmessage = (message) => {
       // console.log("gameId: ", gameId);
       break;
     }
+    case "text": {
+      const message = responce.message;
+      const clientId = responce.clientId;
+      const messageEl = document.createElement("div");
+      messageEl.innerText = `${clientId}: ${message}`;
+      console.log(message);
+      chat?.appendChild(messageEl);
+    }
   }
   // if (responce.method === "connect") {
   //   clientId = responce.clientId;
@@ -84,26 +115,15 @@ ws.onmessage = (message) => {
   // });
 };
 
-const send = (event: Event) => {
-  event.preventDefault();
 
-  const nameInputEl = document.getElementById("name") as HTMLInputElement;
-  const name = nameInputEl.value;
 
-  const messageInputEl = document.getElementById("message") as HTMLInputElement;
-  const message = messageInputEl.value;
 
-  ws.send(JSON.stringify({ name, message }));
 
-};
-
-const sendBtn = document.querySelector(".submitBtn");
 
 // const formEl = document.getElementById("messageForm");
 
 // formEl?.addEventListener("submit", send);
 
-sendBtn?.addEventListener("click", send);
 
 
 
