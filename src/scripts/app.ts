@@ -7,7 +7,7 @@
 
 import * as io from "socket.io-client";
 
-const socket: io.Socket = io.connect("http://amusing-yam-production.up.railway.app");
+const socket: io.Socket = io.connect("https://rs-clone-api-production.up.railway.app/");
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
   const messages = JSON.parse(message) as Array<{
@@ -17,7 +17,8 @@ socket.on("message", (message) => {
 
   messages.forEach((el) => {
     const messageEl = document.createElement("div");
-    messageEl.innerText = `${el.name}: ${el.message}`;
+    messageEl.classList.add("chat-message")
+    messageEl.innerHTML = `<div class="chat-message__username">${el.name}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${el.message}</div>`;
     chat?.appendChild(messageEl);
   });
 });

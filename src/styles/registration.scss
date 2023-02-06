@@ -1,0 +1,134 @@
+.form-page__wrapper {
+  background-color: #E5E5E5;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-in__form {
+  background-color: #fff;
+  max-width: 540px;
+}
+
+.form-header {
+  display: flex;
+  gap: 35px;
+  text-align: center;
+  padding: 0 60px 0 20px;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.login-title {
+  font-size: 24px;
+  line-height: 28px;
+  color: #BDBDBD;
+  cursor: pointer;
+  width: 211px;
+  padding: 20px 0;
+  border-bottom: 4px solid #fff;
+  transition: 0.5s;
+  
+}
+
+.registration-title {
+  @extend .login-title;
+}
+
+.login-title.active,
+.registration-title.active {
+  border-bottom: 4px solid #72BF44;
+  color: #333333;
+  transition: 0.5s;
+}
+
+.login-form {
+  display: none;
+  padding: 40px 50px 50px;
+  flex-direction: column;
+  gap: 20px;
+  transition: 0.5s;
+}
+
+.registration-form {
+  @extend .login-form;
+}
+
+.login-form.active,
+.registration-form.active {
+  display: flex;
+  transition: 0.5s;
+}
+
+.login-form label {
+  color: #333333;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.login-form input {
+  width: 100%;
+  color: #333333;
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: 1px solid #BDBDBD;
+}
+
+.message-error {
+  position: absolute;
+  top: 100%;
+  padding-top: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #EB5757;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.username,
+.password,
+.email {
+  position: relative;
+}
+
+.button {
+  font-weight: 700;
+  color: #fff;
+  background-color: #2B744B;
+  cursor: pointer;
+  border: 0;
+  transition: 0.5s;
+  width: 100%;
+  padding: 16px 0;
+  font-size: 18px;
+  margin-top: 30px;
+
+  &:hover {
+    background: #72BF44;
+    transition: 0.5s;
+  }
+}
+
+.password-control {
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  bottom: 14px;
+  width: 16px;
+  height: 11px;
+}
+
+.form-container {
+  input {
+    &.error {
+      + .message-error {
+        opacity: 1;
+      }
+    }
+  }
+}
