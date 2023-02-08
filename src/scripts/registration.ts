@@ -1,3 +1,14 @@
+const RegistrationForm = {
+  username: '',
+  email: '',
+  password: '',
+}
+
+const LoginForm = {
+  username: '',
+  password: '',
+}
+
 /////////////////////switch form
 const formHeader = document.querySelector(".form-header") as HTMLElement;
 
@@ -39,29 +50,93 @@ const visiblePassword = (event: Event) => {
       
     }
     target.classList.toggle("visible-password");
+
   }
 }
 
 const formContainer = document.querySelector(".form-container");
 formContainer?.addEventListener("click", visiblePassword);
 
-//////////////////////validate
+
+//////////////////////validate input
 const registrationForm = document.querySelector(".registration-form");
+const loginForm = document.querySelector(".login-form");
 
-const checkLength = (data: string) => {
-
+const checkLength = (...inputsArr: Array<HTMLInputElement>) => {  
+  for (const input of inputsArr) {
+    input.value.length < 3 ? input.classList.add("error"): true;  
+  }
 }
 
-function checkConfirmPassword(event: Event) {
-  event.preventDefault()
+const checkRegistrationInputLength = () => {
+  const firstPassword = registrationForm?.querySelector(".first-password") as HTMLInputElement;
+  const confirmPassword = registrationForm?.querySelector(".confirm-password") as HTMLInputElement;
+  const username = registrationForm?.querySelector(".username-input") as HTMLInputElement;
+  RegistrationForm.username = username.value;
+  RegistrationForm.password = firstPassword.value;
+  checkLength(firstPassword, confirmPassword, username);
+}
+
+const checkLoginInputLength = () => {
+  const password = loginForm?.querySelector(".password-input") as HTMLInputElement;
+  const username = loginForm?.querySelector(".username-input") as HTMLInputElement;
+  LoginForm.username = username.value;
+  LoginForm.password = password.value;
+  checkLength(password, username);
+}
+
+const clearErrors = () => {
+  let errors = document.querySelectorAll('.error');
+  for(let i = 0; i < errors.length; i++ ) {
+      errors[i].classList.remove('error');
+  }
+}
+
+function checkConfirmPassword() {
   const firstPassword = registrationForm?.querySelector(".first-password") as HTMLInputElement;
   const confirmPassword = registrationForm?.querySelector(".confirm-password") as HTMLInputElement;
 
   if (firstPassword.value !== confirmPassword.value) {
     firstPassword.classList.add("error");
     confirmPassword.classList.add("error");
-  }  
-  return firstPassword.value === confirmPassword.value;
+  } 
 }
 
-registrationForm?.addEventListener("submit", checkConfirmPassword)
+function isValidEmail() { 
+  const emailInput = registrationForm?.querySelector(".email-address__input") as HTMLInputElement;
+  if (!/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(emailInput.value)) {
+    emailInput.classList.add("error");
+  } else {
+    RegistrationForm.email = emailInput.value;
+  } 
+} 
+
+const submitInfo = (event: Event) => {
+  const target = event.target as HTMLElement;
+  let errors = target?.querySelectorAll('.error');
+  if (!errors.length) {
+    target.classList.contains('login-form') ? console.log(LoginForm) : false;
+    target.classList.contains('registration-form') ? console.log(RegistrationForm) : false;
+  }
+}
+
+const validateRegistrationForm = (event: Event) => {
+  event.preventDefault();
+  clearErrors();
+  checkConfirmPassword();
+  checkRegistrationInputLength();
+  isValidEmail();
+  submitInfo(event)
+}
+
+const validateLoginForm = (event: Event) => {
+  event.preventDefault();  
+  clearErrors();
+  checkLoginInputLength();
+  submitInfo(event)
+}
+
+registrationForm?.addEventListener("submit", validateRegistrationForm);
+loginForm?.addEventListener("submit", validateLoginForm);
+
+
