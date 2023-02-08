@@ -1,12 +1,12 @@
-const baseUrl = 'https://peachy-ink-production.up.railway.app'
+const baseUrl = "https://peachy-ink-production.up.railway.app";
 const RegistrationForm = {
-  username: '',
-  password: '',
-}
+  username: "",
+  password: "",
+};
 
 const LoginForm = {
-  username: '',
-  password: '',
+  username: "",
+  password: "",
 }
 
 /////////////////////switch form
@@ -118,6 +118,15 @@ const submitInfo = (event: Event) => {
     createUser()
   }
 }
+const submitLoginInfo = (event: Event) => {
+  const target = event.target as HTMLElement;
+  let errors = target?.querySelectorAll('.error');
+  if (!errors.length) {
+    target.classList.contains('login-form') ? console.log(LoginForm) : false;
+    target.classList.contains('registration-form') ? console.log(RegistrationForm) : false;
+    loginUser()
+  }
+}
 
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
@@ -132,7 +141,7 @@ const validateLoginForm = (event: Event) => {
   event.preventDefault();  
   clearErrors();
   checkLoginInputLength();
-  submitInfo(event)
+  submitLoginInfo(event)
 }
 
 registrationForm?.addEventListener("submit", validateRegistrationForm);
@@ -146,15 +155,15 @@ const createUser = async() => {
       headers: {
           'Content-Type': 'application/json',
       },
-
-
       body: JSON.stringify(RegistrationForm),
   });
 }
-
-const getUser = async () => {
-  const response = await fetch(`https://peachy-ink-production.up.railway.app/users`);
-  const data = await response.json();
-  return data;
+const loginUser = async() => {
+  await fetch(`${baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(LoginForm),
+  });
 }
-getUser()

@@ -7,7 +7,7 @@
 
 import * as io from "socket.io-client";
 
-const socket: io.Socket = io.connect("https://rs-clone-api-production.up.railway.app/");
+const socket: io.Socket = io.connect("https://peachy-ink-production.up.railway.app/");
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
   const messages = JSON.parse(message) as Array<{
