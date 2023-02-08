@@ -125,15 +125,14 @@ function isValidEmail() {
   }
 }
 
-const submitInfo = (event: Event) => {
-  const target = event.target as HTMLElement;
-  const errors = target?.querySelectorAll(".error");
+const submitInfo = (event: Event, authorizationType: string, form: { username: string, password: string}) => {
+  const target = event.target as HTMLFormElement;
+  const errors = target?.querySelectorAll(".error");  
   if (!errors.length) {
-    target.classList.contains("login-form") ? console.log(LoginForm) : false;
-    target.classList.contains("registration-form")
-      ? console.log(RegistrationForm)
-      : false;
-    createUser();
+    createUser(authorizationType, form);
+    target.reset();
+    // target.classList.contains("registration-form") ? window.location.href = "/rs-clone/dist/registration.html" : false;
+     
   }
 };
 
@@ -143,27 +142,31 @@ const validateRegistrationForm = (event: Event) => {
   checkConfirmPassword();
   checkRegistrationInputLength();
   isValidEmail();
-  submitInfo(event);
+  submitInfo(event, "registration", RegistrationForm);
 };
 
 const validateLoginForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
   checkLoginInputLength();
-  submitInfo(event);
+  submitInfo(event, "login", LoginForm);
 };
 
 registrationForm?.addEventListener("submit", validateRegistrationForm);
 loginForm?.addEventListener("submit", validateLoginForm);
 
-const createUser = async () => {
-  console.log(RegistrationForm);
-  await fetch(`${baseUrl}/registration`, {
+const createUser = async (authorizationType: string, form: { username: string, password: string}) => {  
+  const result = await fetch(`${baseUrl}/${authorizationType}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
 
-    body: JSON.stringify(RegistrationForm),
+    body: JSON.stringify(form),
   });
+  const data = await result.json();
+  data.message === "Пользователь успешно зарегистрирован" ? window.location.href = "/rs-clone/dist/registration.html": false;
+  data.message === "Неверный пароль" ? console.log("Неверный пароль"): false;
+  data.token ? console.log(data.token): false;
+  return data;
 };
