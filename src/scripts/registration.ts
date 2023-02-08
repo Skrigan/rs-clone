@@ -1,4 +1,3 @@
-// const baseUrl = "http://localhost:5000";
 const baseUrl = "https://peachy-ink-production.up.railway.app";
 const RegistrationForm = {
   username: "",
