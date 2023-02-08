@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:5000'
+const baseUrl = 'https://peachy-ink-production.up.railway.app'
 const RegistrationForm = {
   username: '',
   password: '',
@@ -151,3 +151,10 @@ const createUser = async() => {
       body: JSON.stringify(RegistrationForm),
   });
 }
+
+const getUser = async () => {
+  const response = await fetch(`https://peachy-ink-production.up.railway.app/users`);
+  const data = await response.json();
+  return data;
+}
+getUser()
