@@ -1,4 +1,8 @@
 const baseUrl = "https://peachy-ink-production.up.railway.app";
+
+const chatPage = document.querySelector(".chap-page");
+const formPage = document.querySelector(".form-page__wrapper");
+
 const RegistrationForm = {
   username: "",
   password: "",
@@ -131,8 +135,6 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
   if (!errors.length) {
     createUser(authorizationType, form);
     target.reset();
-    // target.classList.contains("registration-form") ? window.location.href = "/rs-clone/dist/registration.html" : false;
-     
   }
 };
 
@@ -168,9 +170,13 @@ const createUser = async (authorizationType: string, form: { username: string, p
     body: JSON.stringify(form),
   });
   const data = await result.json();
-  data.message === "Пользователь успешно зарегистрирован" ? window.location.href = "./registration.html": false;
+  if (data.message === "Пользователь успешно зарегистрирован") pageSwitch();
+  if (data.token) pageSwitch();
   data.message === "Неверный пароль" ? console.log("Неверный пароль"): false;
-  // data.token ? window.location.href = "./index.html": false;
   return data;
 };
 
+const pageSwitch = () => {
+  formPage?.classList.toggle("none");
+  chatPage?.classList.toggle("none");
+};
