@@ -1,6 +1,6 @@
+const baseUrl = 'http://localhost:5000'
 const RegistrationForm = {
   username: '',
-  email: '',
   password: '',
 }
 
@@ -106,8 +106,6 @@ function isValidEmail() {
   const emailInput = registrationForm?.querySelector(".email-address__input") as HTMLInputElement;
   if (!/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(emailInput.value)) {
     emailInput.classList.add("error");
-  } else {
-    RegistrationForm.email = emailInput.value;
   } 
 } 
 
@@ -117,6 +115,7 @@ const submitInfo = (event: Event) => {
   if (!errors.length) {
     target.classList.contains('login-form') ? console.log(LoginForm) : false;
     target.classList.contains('registration-form') ? console.log(RegistrationForm) : false;
+    createUser()
   }
 }
 
@@ -140,3 +139,15 @@ registrationForm?.addEventListener("submit", validateRegistrationForm);
 loginForm?.addEventListener("submit", validateLoginForm);
 
 
+const createUser = async() => {
+  console.log(RegistrationForm);
+  await fetch(`${baseUrl}/registration`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+
+
+      body: JSON.stringify(RegistrationForm),
+  });
+}
