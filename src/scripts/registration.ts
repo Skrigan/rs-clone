@@ -150,6 +150,9 @@ const validateLoginForm = (event: Event) => {
   clearErrors();
   checkLoginInputLength();
   submitInfo(event, "login", LoginForm);
+  console.log(LoginForm.username);
+  
+  document.querySelector("#name")!.innerHTML = `<div>${LoginForm.username}</div>`;
 };
 
 registrationForm?.addEventListener("submit", validateRegistrationForm);
@@ -165,8 +168,9 @@ const createUser = async (authorizationType: string, form: { username: string, p
     body: JSON.stringify(form),
   });
   const data = await result.json();
-  data.message === "Пользователь успешно зарегистрирован" ? window.location.href = "/rs-clone/dist/registration.html": false;
+  data.message === "Пользователь успешно зарегистрирован" ? window.location.href = "./registration.html": false;
   data.message === "Неверный пароль" ? console.log("Неверный пароль"): false;
-  data.token ? console.log(data.token): false;
+  // data.token ? window.location.href = "./index.html": false;
   return data;
 };
+
