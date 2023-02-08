@@ -10,7 +10,7 @@ import * as io from "socket.io-client";
 const socket = io.connect("http://localhost:5000");
 const chat = document.querySelector(".chat");
 
-(socket as any).on("message", (message: any) => {
+(socket as io.Socket).on("message", (message: string) => {
 
   const messages = JSON.parse(message) as Array<{
     name: string;
