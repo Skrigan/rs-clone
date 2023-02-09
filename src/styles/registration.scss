@@ -132,3 +132,39 @@
     }
   }
 }
+
+
+
+.game {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game-field {
+  width: 400px;
+  height: 400px;
+  border: 1px solid;
+  &_enemy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.create-game {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  left: 100px;
+  gap: 10px;
+  &__button {
+    margin: 0;
+  }
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  &__input {
+    border: 1px solid;
+  }
+}
