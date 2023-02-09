@@ -1,17 +1,48 @@
-const baseUrl = "https://peachy-ink-production.up.railway.app";
+import * as io from "socket.io-client";
+// const baseUrl = "https://peachy-ink-production.up.railway.app";
+const baseUrl = "http://127.0.0.1:5000";
+
+const userData = {
+  username: "",
+  password: "",
+};
+
+const socket: io.Socket = io.connect(baseUrl);
+
+const chat = document.querySelector(".chat");
+socket.on("message", (message) => {
+  const messages = JSON.parse(message) as Array<{
+    name: string;
+    message: string;
+  }>;
+
+  messages.forEach((el) => {
+    const messageEl = document.createElement("div");
+    messageEl.classList.add("chat-message");
+    messageEl.innerHTML = `<div class="chat-message__username">${el.name}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${el.message}</div>`;
+    chat?.appendChild(messageEl);
+  });
+});
+
+const send = (event: Event) => {
+  event.preventDefault();
+
+  const name = userData.username;
+
+  const messageInputEl = document.getElementById("message") as HTMLInputElement;
+  const message = messageInputEl.value;
+
+  socket.send(JSON.stringify({ name, message }));
+};
+
+const sendBtn = document.querySelector(".submitBtn");
+
+sendBtn?.addEventListener("click", send);
+
+
 
 const chatPage = document.querySelector(".chap-page");
 const formPage = document.querySelector(".form-page__wrapper");
-
-const RegistrationForm = {
-  username: "",
-  password: "",
-};
-
-const LoginForm = {
-  username: "",
-  password: "",
-};
 
 /////////////////////switch form
 const formHeader = document.querySelector(".form-header") as HTMLElement;
@@ -78,8 +109,8 @@ const checkRegistrationInputLength = () => {
   const username = registrationForm?.querySelector(
     ".username-input"
   ) as HTMLInputElement;
-  RegistrationForm.username = username.value;
-  RegistrationForm.password = firstPassword.value;
+  userData.username = username.value;
+  userData.password = firstPassword.value;
   checkLength(firstPassword, confirmPassword, username);
 };
 
@@ -90,8 +121,8 @@ const checkLoginInputLength = () => {
   const username = loginForm?.querySelector(
     ".username-input"
   ) as HTMLInputElement;
-  LoginForm.username = username.value;
-  LoginForm.password = password.value;
+  userData.username = username.value;
+  userData.password = password.value;
   checkLength(password, username);
 };
 
@@ -138,23 +169,31 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
   }
 };
 
+const checkInvite = () => {
+  const hash = window.location.hash;
+  if (hash) {
+  // console.log(window.location.hash.split("="));
+    const arr = hash.split("=");
+    const index = arr.indexOf("#gameId");
+    const gameId = arr[index + 1];
+  }
+};
+
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
   checkConfirmPassword();
   checkRegistrationInputLength();
   isValidEmail();
-  submitInfo(event, "registration", RegistrationForm);
+  submitInfo(event, "registration", userData);
 };
 
 const validateLoginForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
   checkLoginInputLength();
-  submitInfo(event, "login", LoginForm);
-  console.log(LoginForm.username);
-  
-  document.querySelector("#name")!.innerHTML = `<div>${LoginForm.username}</div>`;
+  submitInfo(event, "login", userData);
+  console.log(userData.username);
 };
 
 registrationForm?.addEventListener("submit", validateRegistrationForm);
