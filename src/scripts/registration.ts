@@ -1,25 +1,22 @@
 import * as io from "socket.io-client";
-// const baseUrl = "https://peachy-ink-production.up.railway.app";
-const baseUrl = "http://127.0.0.1:5000";
+const baseUrl = "https://peachy-ink-production.up.railway.app";
+// const baseUrl = "http://127.0.0.1:5000";
 const userData = {
   username: "",
   password: "",
 };
+let gameId: string;
 const createGameBtn = document.querySelector(".create-game__button") as HTMLButtonElement;
 const createGameOptions = document.querySelector(".create-game__options");
 
-const createGameEvent = (e: Event) => {
-  // function createEvent() {
-  //   const payLoad = {
-  //     "method": "create",
-  //     "clientId": clientId,
-  //   }
-  //   ws.send(JSON.stringify(payLoad));
-  // }
+const createGameEvent = () => {
   createGameBtn?.classList.add("disabled");
   createGameBtn.disabled = true;
-  createGameOptions?.classList.remove("none");
-  console.log("click");
+  const payLoad = {
+    method: "create",
+    username: userData.username,
+  };
+  socket.send(JSON.stringify(payLoad));
 };
 createGameBtn?.addEventListener("click", createGameEvent);
 const socket: io.Socket = io.connect(baseUrl);
@@ -28,21 +25,21 @@ const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
   const responce = JSON.parse(message);
   switch (responce.method) {
-  // case "connect": {
-  //   clientId = responce.clientId;
-  //   const payLoad = {
-  //     method: "connect",
-  //     clientId: clientId,
-  //     username: userData.username
-  //   };
-  //   socket.send(JSON.stringify(payLoad));
+  case "create": {
+    gameId = responce.gameId;
+    (document.querySelector(".create-game__input") as HTMLInputElement).value = `${window.location.href}#gameId=${gameId}`;
+    createGameOptions?.classList.remove("none");
+    break;
+  }
   case "globalMessage": {
-    console.log(responce);
     const messageEl = document.createElement("div");
     messageEl.classList.add("chat-message");
     messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${responce.message}</div>`;
     chat?.appendChild(messageEl);
     break;
+  }
+  case "start": {
+    console.log("enemyName: ",responce.enemyName);
   }
     //   console.log("clientId: ", clientId);
     //   const messages = responce.messages as Array<{
@@ -70,9 +67,7 @@ const send = (event: Event) => {
   };
   socket.send(JSON.stringify(payLoad));
 };
-
 const sendBtn = document.querySelector(".submitBtn");
-
 sendBtn?.addEventListener("click", send);
 
 
@@ -202,24 +197,25 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
   if (!errors.length) {
     createUser(authorizationType, form);
     target.reset();
+    const payLoad = {
+      method: "autorize",
+      username: userData.username
+    };
+    socket.send(JSON.stringify(payLoad));
+    const hash = window.location.hash;
+    if (hash) {
+      const arr = hash.split("=");
+      const index = arr.indexOf("#gameId");
+      gameId = arr[index + 1];
+      const payLoad = {
+        "method": "join",
+        "username": userData.username,
+        "gameId": gameId,
+      };
+      socket.send(JSON.stringify(payLoad));
+    }
   }
-  const payLoad = {
-    method: "autorize",
-    username: userData.username
-  };
-  console.log("killme");
-  socket.send(JSON.stringify(payLoad));
 };
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// const checkInvite = () => {
-//   const hash = window.location.hash;
-//   if (hash) {
-//     // console.log(window.location.hash.split("="));
-//     const arr = hash.split("=");
-//     const index = arr.indexOf("#gameId");
-//     const gameId = arr[index + 1];
-//   }
-// };
 
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
@@ -235,7 +231,7 @@ const validateLoginForm = (event: Event) => {
   clearErrors();
   checkLoginInputLength();
   submitInfo(event, "login", userData);
-  console.log(userData.username);
+  console.log("username: ", userData.username);
 };
 
 registrationForm?.addEventListener("submit", validateRegistrationForm);
