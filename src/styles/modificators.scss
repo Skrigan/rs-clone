@@ -5,3 +5,10 @@
 .disabled {
 	opacity: 0.5;
 }
+
+.button.disabled {
+	cursor: default;
+	&:hover{
+		background: #2B744B;
+	}
+}

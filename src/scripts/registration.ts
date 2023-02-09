@@ -1,38 +1,74 @@
 import * as io from "socket.io-client";
 // const baseUrl = "https://peachy-ink-production.up.railway.app";
 const baseUrl = "http://127.0.0.1:5000";
-
 const userData = {
   username: "",
   password: "",
 };
+const createGameBtn = document.querySelector(".create-game__button") as HTMLButtonElement;
+const createGameOptions = document.querySelector(".create-game__options");
 
+const createGameEvent = (e: Event) => {
+  // function createEvent() {
+  //   const payLoad = {
+  //     "method": "create",
+  //     "clientId": clientId,
+  //   }
+  //   ws.send(JSON.stringify(payLoad));
+  // }
+  createGameBtn?.classList.add("disabled");
+  createGameBtn.disabled = true;
+  createGameOptions?.classList.remove("none");
+  console.log("click");
+};
+createGameBtn?.addEventListener("click", createGameEvent);
 const socket: io.Socket = io.connect(baseUrl);
 
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
-  const messages = JSON.parse(message) as Array<{
-    name: string;
-    message: string;
-  }>;
-
-  messages.forEach((el) => {
+  const responce = JSON.parse(message);
+  switch (responce.method) {
+  // case "connect": {
+  //   clientId = responce.clientId;
+  //   const payLoad = {
+  //     method: "connect",
+  //     clientId: clientId,
+  //     username: userData.username
+  //   };
+  //   socket.send(JSON.stringify(payLoad));
+  case "globalMessage": {
+    console.log(responce);
     const messageEl = document.createElement("div");
     messageEl.classList.add("chat-message");
-    messageEl.innerHTML = `<div class="chat-message__username">${el.name}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${el.message}</div>`;
+    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${responce.message}</div>`;
     chat?.appendChild(messageEl);
-  });
+    break;
+  }
+    //   console.log("clientId: ", clientId);
+    //   const messages = responce.messages as Array<{
+    //       name: string;
+    //       message: string;
+    //     }>;
+    //   messages.forEach((el) => {
+    //     const messageEl = document.createElement("div");
+    //     messageEl.classList.add("chat-message");
+    //     messageEl.innerHTML = `<div class="chat-message__username">${el.name}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${el.message}</div>`;
+    //     chat?.appendChild(messageEl);
+    //   });
+    //   break;
+    // }
+  }
 });
 
 const send = (event: Event) => {
   event.preventDefault();
-
-  const name = userData.username;
-
   const messageInputEl = document.getElementById("message") as HTMLInputElement;
-  const message = messageInputEl.value;
-
-  socket.send(JSON.stringify({ name, message }));
+  const payLoad = {
+    method: "globalMessage",
+    username: userData.username,
+    message: messageInputEl.value
+  };
+  socket.send(JSON.stringify(payLoad));
 };
 
 const sendBtn = document.querySelector(".submitBtn");
@@ -160,24 +196,30 @@ function isValidEmail() {
   }
 }
 
-const submitInfo = (event: Event, authorizationType: string, form: { username: string, password: string}) => {
+const submitInfo = (event: Event, authorizationType: string, form: { username: string, password: string }) => {
   const target = event.target as HTMLFormElement;
-  const errors = target?.querySelectorAll(".error");  
+  const errors = target?.querySelectorAll(".error");
   if (!errors.length) {
     createUser(authorizationType, form);
     target.reset();
   }
+  const payLoad = {
+    method: "autorize",
+    username: userData.username
+  };
+  console.log("killme");
+  socket.send(JSON.stringify(payLoad));
 };
-
-const checkInvite = () => {
-  const hash = window.location.hash;
-  if (hash) {
-  // console.log(window.location.hash.split("="));
-    const arr = hash.split("=");
-    const index = arr.indexOf("#gameId");
-    const gameId = arr[index + 1];
-  }
-};
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// const checkInvite = () => {
+//   const hash = window.location.hash;
+//   if (hash) {
+//     // console.log(window.location.hash.split("="));
+//     const arr = hash.split("=");
+//     const index = arr.indexOf("#gameId");
+//     const gameId = arr[index + 1];
+//   }
+// };
 
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
@@ -199,7 +241,7 @@ const validateLoginForm = (event: Event) => {
 registrationForm?.addEventListener("submit", validateRegistrationForm);
 loginForm?.addEventListener("submit", validateLoginForm);
 
-const createUser = async (authorizationType: string, form: { username: string, password: string}) => {  
+const createUser = async (authorizationType: string, form: { username: string, password: string }) => {
   const result = await fetch(`${baseUrl}/${authorizationType}`, {
     method: "POST",
     headers: {
@@ -211,7 +253,7 @@ const createUser = async (authorizationType: string, form: { username: string, p
   const data = await result.json();
   if (data.message === "Пользователь успешно зарегистрирован") pageSwitch();
   if (data.token) pageSwitch();
-  data.message === "Неверный пароль" ? console.log("Неверный пароль"): false;
+  data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
   return data;
 };
 
