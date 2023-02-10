@@ -168,3 +168,23 @@
     border: 1px solid;
   }
 }
+
+.successful-registration {
+  opacity: 0;
+  position: absolute;
+  top: 11%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid #666565;
+  font-size: 25px;
+  max-width: 30%;
+  z-index: 10;
+  transition: 0.5s;
+}
+
+.successful-registration.active {
+  opacity: 1;
+}

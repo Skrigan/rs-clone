@@ -1,4 +1,5 @@
 import * as io from "socket.io-client";
+import { successfulRegistrationMessage } from "./successfulRegistration";
 export const baseUrl = "https://peachy-ink-production.up.railway.app";
 // const baseUrl = "http://127.0.0.1:5000";
 
@@ -265,7 +266,11 @@ const createUser = async (
     body: JSON.stringify(form),
   });
   const data = await result.json();
-  if (data.message === "Пользователь успешно зарегистрирован") loginPage.click();
+  if (data.message === "Пользователь успешно зарегистрирован") {
+    loginPage.click();
+    successfulRegistrationMessage();
+    
+  }
   if (data.token) {
     pageSwitch();
     data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
@@ -277,3 +282,4 @@ const pageSwitch = () => {
   formPage?.classList.toggle("none");
   chatPage?.classList.toggle("none");
 };
+
