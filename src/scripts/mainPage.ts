@@ -1,12 +1,28 @@
 import * as io from "socket.io-client";
-const baseUrl = "https://peachy-ink-production.up.railway.app";
+export const baseUrl = "https://peachy-ink-production.up.railway.app";
 // const baseUrl = "http://127.0.0.1:5000";
+
+const chatPage = document.querySelector(".chap-page");
+const formPage = document.querySelector(".form-page__wrapper");
+
+autorithCheck();
+
+function autorithCheck() {
+  if(localStorage.getItem("isAutorith") === "true") {
+    formPage?.classList.add("none");
+    chatPage?.classList.remove("none");
+  }
+}
+
 const userData = {
   username: "",
   password: "",
 };
+
 let gameId: string;
-const createGameBtn = document.querySelector(".create-game__button") as HTMLButtonElement;
+const createGameBtn = document.querySelector(
+  ".create-game__button"
+) as HTMLButtonElement;
 const createGameOptions = document.querySelector(".create-game__options");
 
 const createGameEvent = () => {
@@ -18,8 +34,13 @@ const createGameEvent = () => {
   };
   socket.send(JSON.stringify(payLoad));
 };
+
 createGameBtn?.addEventListener("click", createGameEvent);
 const socket: io.Socket = io.connect(baseUrl);
+
+const actualTime = new Date();
+
+const timeString = `${actualTime.getHours()}:${actualTime.getMinutes()}`;
 
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
@@ -27,33 +48,22 @@ socket.on("message", (message) => {
   switch (responce.method) {
   case "create": {
     gameId = responce.gameId;
-    (document.querySelector(".create-game__input") as HTMLInputElement).value = `${window.location.href}#gameId=${gameId}`;
+    (
+        document.querySelector(".create-game__input") as HTMLInputElement
+    ).value = `${window.location.href}#gameId=${gameId}`;
     createGameOptions?.classList.remove("none");
     break;
   }
   case "globalMessage": {
     const messageEl = document.createElement("div");
     messageEl.classList.add("chat-message");
-    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${responce.message}</div>`;
+    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${timeString}</span></div><div class="chat-message__content">${responce.message}</div>`;
     chat?.appendChild(messageEl);
     break;
   }
   case "start": {
-    console.log("enemyName: ",responce.enemyName);
+    console.log("enemyName: ", responce.enemyName);
   }
-    //   console.log("clientId: ", clientId);
-    //   const messages = responce.messages as Array<{
-    //       name: string;
-    //       message: string;
-    //     }>;
-    //   messages.forEach((el) => {
-    //     const messageEl = document.createElement("div");
-    //     messageEl.classList.add("chat-message");
-    //     messageEl.innerHTML = `<div class="chat-message__username">${el.name}<span class="chat-message__time">00:00</span></div><div class="chat-message__content">${el.message}</div>`;
-    //     chat?.appendChild(messageEl);
-    //   });
-    //   break;
-    // }
   }
 });
 
@@ -63,17 +73,12 @@ const send = (event: Event) => {
   const payLoad = {
     method: "globalMessage",
     username: userData.username,
-    message: messageInputEl.value
+    message: messageInputEl.value,
   };
   socket.send(JSON.stringify(payLoad));
 };
 const sendBtn = document.querySelector(".submitBtn");
 sendBtn?.addEventListener("click", send);
-
-
-
-const chatPage = document.querySelector(".chap-page");
-const formPage = document.querySelector(".form-page__wrapper");
 
 /////////////////////switch form
 const formHeader = document.querySelector(".form-header") as HTMLElement;
@@ -191,7 +196,15 @@ function isValidEmail() {
   }
 }
 
-const submitInfo = (event: Event, authorizationType: string, form: { username: string, password: string }) => {
+const submitInfo = (
+  event: Event,
+  authorizationType: string,
+  form: { username: string; password: string }
+) => {
+  if(authorizationType === "login") {
+    localStorage.setItem("isAutorith", "true");
+  }
+
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
   if (!errors.length) {
@@ -199,7 +212,7 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
     target.reset();
     const payLoad = {
       method: "autorize",
-      username: userData.username
+      username: userData.username,
     };
     socket.send(JSON.stringify(payLoad));
     const hash = window.location.hash;
@@ -208,9 +221,9 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
       const index = arr.indexOf("#gameId");
       gameId = arr[index + 1];
       const payLoad = {
-        "method": "join",
-        "username": userData.username,
-        "gameId": gameId,
+        method: "join",
+        username: userData.username,
+        gameId: gameId,
       };
       socket.send(JSON.stringify(payLoad));
     }
@@ -237,7 +250,12 @@ const validateLoginForm = (event: Event) => {
 registrationForm?.addEventListener("submit", validateRegistrationForm);
 loginForm?.addEventListener("submit", validateLoginForm);
 
-const createUser = async (authorizationType: string, form: { username: string, password: string }) => {
+const loginPage = document.querySelector(".login-title") as HTMLDivElement;
+
+const createUser = async (
+  authorizationType: string,
+  form: { username: string; password: string }
+) => {
   const result = await fetch(`${baseUrl}/${authorizationType}`, {
     method: "POST",
     headers: {
@@ -247,10 +265,12 @@ const createUser = async (authorizationType: string, form: { username: string, p
     body: JSON.stringify(form),
   });
   const data = await result.json();
-  if (data.message === "Пользователь успешно зарегистрирован") pageSwitch();
-  if (data.token) pageSwitch();
-  data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
-  return data;
+  if (data.message === "Пользователь успешно зарегистрирован") loginPage.click();
+  if (data.token) {
+    pageSwitch();
+    data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
+    return data;
+  }
 };
 
 const pageSwitch = () => {
