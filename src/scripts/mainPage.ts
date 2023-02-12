@@ -50,19 +50,21 @@ const createGameEvent = () => {
 createGameBtn?.addEventListener("click", createGameEvent);
 const socket: io.Socket = io.connect(baseUrl);
 
-const actualTime = new Date();
+const setMessageTime = () => {
+  const actualTime = new Date();
 
-let actualMinutes: number | string = actualTime.getMinutes();
-let actualHours: number | string = actualTime.getHours();
+  let actualMinutes: number | string = actualTime.getMinutes();
+  let actualHours: number | string = actualTime.getHours();
 
-if(actualMinutes < 10) {
-  actualMinutes = "0" + actualMinutes;
-}
-if(actualHours < 10) {
-  actualHours = "0" + actualHours;
-}
+  if (actualMinutes < 10) {
+    actualMinutes = "0" + actualMinutes;
+  }
+  if (actualHours < 10) {
+    actualHours = "0" + actualHours;
+  }
 
-const timeString = `${actualHours}:${actualMinutes}`;
+  return `${actualHours}:${actualMinutes}`;
+};
 
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
@@ -79,7 +81,7 @@ socket.on("message", (message) => {
   case "globalMessage": {
     const messageEl = document.createElement("div");
     messageEl.classList.add("chat-message");
-    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${timeString}</span></div><div class="chat-message__content">${responce.message}</div>`;
+    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${responce.message}</div>`;
     chat?.appendChild(messageEl);
     break;
   }
