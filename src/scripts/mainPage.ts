@@ -283,3 +283,5 @@ const pageSwitch = () => {
   chatPage?.classList.toggle("none");
 };
 
+const settings = document.querySelector(".settings");
+settings?.addEventListener("click", () => settings.classList.toggle("settings-open"));
