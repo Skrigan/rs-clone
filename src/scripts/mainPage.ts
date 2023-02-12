@@ -1,17 +1,25 @@
 import * as io from "socket.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
-export const baseUrl = "https://peachy-ink-production.up.railway.app";
-// const baseUrl = "http://127.0.0.1:5000";
+// export const baseUrl = "https://peachy-ink-production.up.railway.app";
+export const baseUrl = "http://localhost:5000";
 
 const chatPage = document.querySelector(".chap-page");
 const formPage = document.querySelector(".form-page__wrapper");
+const header = document.querySelector(".header");
+
+header?.classList.add("none");
 
 autorithCheck();
 
 function autorithCheck() {
-  if(localStorage.getItem("isAutorith") === "true") {
+  if(localStorage.getItem("isAutorith")) {
     formPage?.classList.add("none");
     chatPage?.classList.remove("none");
+
+    header?.classList.remove("none");
+
+    const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
+    usernameSpan.innerText = localStorage.getItem("isAutorith")!;
   }
 }
 
@@ -26,12 +34,14 @@ const createGameBtn = document.querySelector(
 ) as HTMLButtonElement;
 const createGameOptions = document.querySelector(".create-game__options");
 
+const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
+
 const createGameEvent = () => {
   createGameBtn?.classList.add("disabled");
   createGameBtn.disabled = true;
   const payLoad = {
     method: "create",
-    username: userData.username,
+    username: userName,
   };
   socket.send(JSON.stringify(payLoad));
 };
@@ -68,18 +78,20 @@ socket.on("message", (message) => {
   }
 });
 
-const send = (event: Event) => {
+const sendMessage = (event: Event) => {
   event.preventDefault();
   const messageInputEl = document.getElementById("message") as HTMLInputElement;
+  const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
   const payLoad = {
     method: "globalMessage",
-    username: userData.username,
+    // username: userData.username,
+    username: userName,
     message: messageInputEl.value,
   };
   socket.send(JSON.stringify(payLoad));
 };
 const sendBtn = document.querySelector(".submitBtn");
-sendBtn?.addEventListener("click", send);
+sendBtn?.addEventListener("click", sendMessage);
 
 /////////////////////switch form
 const formHeader = document.querySelector(".form-header") as HTMLElement;
@@ -203,17 +215,19 @@ const submitInfo = (
   form: { username: string; password: string }
 ) => {
   if(authorizationType === "login") {
-    localStorage.setItem("isAutorith", "true");
+    localStorage.setItem("isAutorith", `${form.username}`);
   }
 
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
+
+  const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
   if (!errors.length) {
     createUser(authorizationType, form);
     target.reset();
     const payLoad = {
       method: "autorize",
-      username: userData.username,
+      username: userName,
     };
     socket.send(JSON.stringify(payLoad));
     const hash = window.location.hash;
@@ -223,7 +237,7 @@ const submitInfo = (
       gameId = arr[index + 1];
       const payLoad = {
         method: "join",
-        username: userData.username,
+        username: userName,
         gameId: gameId,
       };
       socket.send(JSON.stringify(payLoad));
@@ -274,6 +288,9 @@ const createUser = async (
   if (data.token) {
     pageSwitch();
     data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
+    const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
+    usernameSpan.innerText = localStorage.getItem("isAutorith")!;
+    header?.classList.remove("none");
     return data;
   }
 };
