@@ -1,0 +1,79 @@
+.battlefield {
+  position: relative;
+  user-select: none;
+
+  &__table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: rgba(40, 46, 250, 0.05);
+  }
+
+  &__item {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(6, 25, 247, 0.15);
+  }
+
+  .marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    &__row {
+      left: -35px;
+    }
+    &__col {
+      top: -35px;
+    }
+  }
+
+  .ship {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 3px solid #0400ff;
+    background: rgba(0, 55, 255, 0.45);
+    width: 32px;
+    height: 32px;
+    &_row-1 {
+
+    }
+    &_row-2 {
+      width: 65px;
+    }
+    &_row-3 {
+      width: 98px;
+    }
+    &_row-4 {
+      width: 131px;
+    }
+    &_column-1 {
+
+    }
+    &_column-2 {
+      height: 65px;
+    }
+    &_column-3 {
+      height: 98px;
+    }
+    &_column-4 {
+      height: 131px;
+    }
+  }
+
+  .unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently not supported by any browser */
+  }
+}

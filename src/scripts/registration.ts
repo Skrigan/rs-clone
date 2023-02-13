@@ -1,9 +1,12 @@
 import * as io from "socket.io-client";
-const baseUrl = "https://peachy-ink-production.up.railway.app";
-// const baseUrl = "http://127.0.0.1:5000";
+import Game from "./game";
+// const baseUrl = "https://peachy-ink-production.up.railway.app";
+const baseUrl = "http://127.0.0.1:5000";
 const userData = {
   username: "",
   password: "",
+  player: "",
+  opponent: ""
 };
 let gameId: string;
 const createGameBtn = document.querySelector(".create-game__button") as HTMLButtonElement;
@@ -39,7 +42,7 @@ socket.on("message", (message) => {
     break;
   }
   case "start": {
-    console.log("enemyName: ",responce.enemyName);
+    console.log("enemyName: ", responce.enemyName);
   }
     //   console.log("clientId: ", clientId);
     //   const messages = responce.messages as Array<{
@@ -214,6 +217,9 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
       };
       socket.send(JSON.stringify(payLoad));
     }
+    const game = new Game(userData);
+    // game.init();
+    console.log(userData);
   }
 };
 
@@ -257,3 +263,5 @@ const pageSwitch = () => {
   formPage?.classList.toggle("none");
   chatPage?.classList.toggle("none");
 };
+
+

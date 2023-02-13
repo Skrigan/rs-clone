@@ -11,19 +11,19 @@
 <body>
   <div class="chap-page none">
     <div class="game">
-      <div class="game-field game-field_my"></div>
-      <div class="game-field game-field_enemy">
-        <div class="create-game">
-          <div class="create-game__options none">
+      <div data-side="player"></div>
+      <div data-side="opponent">
+        <div class="create-game" style="display: none;">
+          <!-- <div class="create-game__options none">
             <p>Cкопируйте ссылку и ожидайте:</p>
             <input class="create-game__input" readonly type="text" value="link/link/link" onFocus="this.select()">
           </div>
-          <button class="button create-game__button">Играть</button>
+          <button class="button create-game__button">Играть</button> -->
         </div>
       </div>
     </div>
     <div class="chat"></div>
-    <div id="messageForm" class="messageForm">
+    <div id="messageForm" class="messageForm" style="display: none;">
       <input type="text" name="message" id="message" class="message">
       <button class="submitBtn button">send</button>
     </div>
