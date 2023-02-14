@@ -38,6 +38,14 @@ const config = {
       template: path.resolve(__dirname, "./src/index.html"),
       filename: "index.html",
     }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "./src/404.html"),
+      filename: "404.html",
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "./src/registration.html"),
+      filename: "registration.html",
+    }),
     new ForkTsCheckerWebpackPlugin(),
     new CopyPlugin({
       patterns: [{ from: "src/assets", to: "assets" }],

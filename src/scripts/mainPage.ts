@@ -285,3 +285,9 @@ const pageSwitch = () => {
 
 const settings = document.querySelector(".settings");
 settings?.addEventListener("click", () => settings.classList.toggle("settings-open"));
+
+const user = document.querySelector(".user");
+user?.addEventListener("click", () => user.classList.toggle("user-profile--open"));
+
+const exitBtn = document.querySelector(".exit-btn");
+exitBtn?.addEventListener("click", () => pageSwitch());

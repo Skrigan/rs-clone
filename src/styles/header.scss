@@ -62,10 +62,31 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    padding: 10px 0;
+    cursor: pointer;
+    position: relative;
     & svg {
         width: 20px;
         fill: #c9d1d9;
     }
+    &.user-profile--open {
+        .user__content {
+            display: flex;
+        }
+    }
+}
+
+.user__content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    position: absolute;
+    top: 100%;
+    left: -6px;
+    padding: 20px;
+    background: #161b22;
+    border-radius: 10px;
+    border: 1px solid #30363d;
 }
 
 .leaderboard { 
