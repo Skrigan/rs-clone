@@ -2,21 +2,27 @@ import * as io from "socket.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
 import path from "path";
 export const baseUrl = "https://peachy-ink-production.up.railway.app";
-// const baseUrl = "http://127.0.0.1:5000";
-console.log(window.location.pathname);
-
+// export const baseUrl = "http://localhost:5000";
 
 const chatPage = document.querySelector(".chap-page");
 const formPage = document.querySelector(".form-page__wrapper");
+const header = document.querySelector(".header");
 
-autorithCheck();
+header?.classList.add("none");
 
-function autorithCheck() {
-  if(localStorage.getItem("isAutorith") === "true") {
-    formPage?.classList.add("none");
-    chatPage?.classList.remove("none");
-  }
-}
+// autorithCheck();
+
+// function autorithCheck() {
+//   if(localStorage.getItem("isAutorith")) {
+//     formPage?.classList.add("none");
+//     chatPage?.classList.remove("none");
+
+//     header?.classList.remove("none");
+
+//     const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
+//     usernameSpan.innerText = localStorage.getItem("isAutorith")!;
+//   }
+// }
 
 const userData = {
   username: "",
@@ -29,11 +35,14 @@ const createGameBtn = document.querySelector(
 ) as HTMLButtonElement;
 const createGameOptions = document.querySelector(".create-game__options");
 
+// const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
+
 const createGameEvent = () => {
   createGameBtn?.classList.add("disabled");
   createGameBtn.disabled = true;
   const payLoad = {
     method: "create",
+    // username: userName,
     username: userData.username,
   };
   socket.send(JSON.stringify(payLoad));
@@ -42,9 +51,21 @@ const createGameEvent = () => {
 createGameBtn?.addEventListener("click", createGameEvent);
 const socket: io.Socket = io.connect(baseUrl);
 
-const actualTime = new Date();
+const setMessageTime = () => {
+  const actualTime = new Date();
 
-const timeString = `${actualTime.getHours()}:${actualTime.getMinutes()}`;
+  let actualMinutes: number | string = actualTime.getMinutes();
+  let actualHours: number | string = actualTime.getHours();
+
+  if (actualMinutes < 10) {
+    actualMinutes = "0" + actualMinutes;
+  }
+  if (actualHours < 10) {
+    actualHours = "0" + actualHours;
+  }
+
+  return `${actualHours}:${actualMinutes}`;
+};
 
 const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
@@ -61,7 +82,7 @@ socket.on("message", (message) => {
   case "globalMessage": {
     const messageEl = document.createElement("div");
     messageEl.classList.add("chat-message");
-    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${timeString}</span></div><div class="chat-message__content">${responce.message}</div>`;
+    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${responce.message}</div>`;
     chat?.appendChild(messageEl);
     break;
   }
@@ -71,18 +92,27 @@ socket.on("message", (message) => {
   }
 });
 
-const send = (event: Event) => {
+const sendMessage = (event: Event) => {
   event.preventDefault();
   const messageInputEl = document.getElementById("message") as HTMLInputElement;
+  // const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
   const payLoad = {
     method: "globalMessage",
     username: userData.username,
+    // username: userName,
     message: messageInputEl.value,
   };
   socket.send(JSON.stringify(payLoad));
+  messageInputEl.value = "";
 };
-const sendBtn = document.querySelector(".submitBtn");
-sendBtn?.addEventListener("click", send);
+const sendBtn = document.querySelector(".submitBtn") as HTMLButtonElement;
+const body = document.querySelector("body");
+sendBtn?.addEventListener("click", sendMessage);
+body!.addEventListener("keydown", (event) => {
+  if (event.keyCode === 13) {
+    sendBtn.click();
+  }
+});
 
 /////////////////////switch form
 const formHeader = document.querySelector(".form-header") as HTMLElement;
@@ -205,17 +235,20 @@ const submitInfo = (
   authorizationType: string,
   form: { username: string; password: string }
 ) => {
-  if(authorizationType === "login") {
-    localStorage.setItem("isAutorith", "true");
+  if (authorizationType === "login") {
+    localStorage.setItem("isAutorith", `${form.username}`);
   }
 
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
+
+  // const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
   if (!errors.length) {
     createUser(authorizationType, form);
     target.reset();
     const payLoad = {
       method: "autorize",
+      // username: userName,
       username: userData.username,
     };
     socket.send(JSON.stringify(payLoad));
@@ -226,6 +259,7 @@ const submitInfo = (
       gameId = arr[index + 1];
       const payLoad = {
         method: "join",
+        // username: userName,
         username: userData.username,
         gameId: gameId,
       };
@@ -272,11 +306,13 @@ const createUser = async (
   if (data.message === "Пользователь успешно зарегистрирован") {
     loginPage.click();
     successfulRegistrationMessage();
-    
   }
   if (data.token) {
     pageSwitch();
     data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
+    const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
+    usernameSpan.innerText = localStorage.getItem("isAutorith")!;
+    header?.classList.remove("none");
     return data;
   }
 };
@@ -284,5 +320,16 @@ const createUser = async (
 const pageSwitch = () => {
   formPage?.classList.toggle("none");
   chatPage?.classList.toggle("none");
+  header?.classList.toggle("none");
 };
 
+const settings = document.querySelector(".settings");
+settings?.addEventListener("click", () =>
+  settings.classList.toggle("settings-open")
+);
+
+const user = document.querySelector(".user");
+user?.addEventListener("click", () => user.classList.toggle("user-profile--open"));
+
+const exitBtn = document.querySelector(".exit-btn");
+exitBtn?.addEventListener("click", () => pageSwitch());
