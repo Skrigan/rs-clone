@@ -1,5 +1,6 @@
 import * as io from "socket.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
+// import path from "path";
 export const baseUrl = "https://peachy-ink-production.up.railway.app";
 // export const baseUrl = "http://localhost:5000";
 
@@ -319,9 +320,16 @@ const createUser = async (
 const pageSwitch = () => {
   formPage?.classList.toggle("none");
   chatPage?.classList.toggle("none");
+  header?.classList.toggle("none");
 };
 
 const settings = document.querySelector(".settings");
 settings?.addEventListener("click", () =>
   settings.classList.toggle("settings-open")
 );
+
+const user = document.querySelector(".user");
+user?.addEventListener("click", () => user.classList.toggle("user-profile--open"));
+
+const exitBtn = document.querySelector(".exit-btn");
+exitBtn?.addEventListener("click", () => pageSwitch());

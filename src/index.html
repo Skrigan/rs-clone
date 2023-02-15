@@ -13,9 +13,9 @@
     <div class="header__wrapper">
       <div class="settings">Settings <img class="settings-icon" src="assets/images/gtkabout.png" alt="Settings icon">
         <ul class="settings__content">
-          <li>English</li>
-          <li>Russian</li>
-          <li>Belarusian</li>
+          <li class="language_variant">English</li>
+          <li class="language_variant">Russian</li>
+          <!-- <li>Belarusian</li> -->
         </ul>
       </div>
       <div class="leaderboard">Leaders
@@ -32,13 +32,32 @@
       </div>
       <div class="user">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><title/><g id="about"><path d="M16,16A7,7,0,1,0,9,9,7,7,0,0,0,16,16ZM16,4a5,5,0,1,1-5,5A5,5,0,0,1,16,4Z"/><path d="M17,18H15A11,11,0,0,0,4,29a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1A11,11,0,0,0,17,18ZM6.06,28A9,9,0,0,1,15,20h2a9,9,0,0,1,8.94,8Z"/></g></svg>
-        <span class="username">guest</span></div>
+        <span class="username">guest</span>
+        <ul class="user__content">
+          <li class="exit-btn">Выйти</li>
+        </ul>
+      </div>
     </div>
   </header>
   <div class="chap-page none">
     <div class="game">
-      <div class="game-field game-field_my"></div>
-      <div class="game-field game-field_my"></div>
+      <div class="game-field game-field_my">
+        Морской бой
+      </div>
+      <div class="game-field game-field_my">
+        <form action="">
+        <div class="game-mode_choise">
+          <div class="choise">
+            <div class="choise_title" onclick="document.querySelector('.choise1').click()">Случайно</div>
+            <input type="radio" name="choise" class="choise1">
+          </div>
+          <div class="choise">
+            <input type="radio" name="choise" class="choise2">
+            <div class="choise_title" onclick="document.querySelector('.choise2').click()">С другом</div>
+          </div>
+        </div>
+      </form>
+      </div>
       <div class="game-field game-field_enemy">
         <div class="create-game">
           <div class="create-game__options none">
