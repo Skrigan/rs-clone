@@ -6,3 +6,4 @@ import "./styles/header.scss";
 import "./scripts/app";
 import "./scripts/mainPage";
 import "./scripts/router";
+import "./scripts/localization"
