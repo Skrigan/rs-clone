@@ -9,4 +9,4 @@ import "./scripts/mainPage";
 import "./scripts/router";
 import "./scripts/localization";
 import "./styles/game.scss";
-import "./scripts/registration";
+
