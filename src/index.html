@@ -11,15 +11,15 @@
 <body class="body">
   <header class="header">
     <div class="header__wrapper">
-      <div class="settings">Settings <img class="settings-icon" src="assets/images/gtkabout.png" alt="Settings icon">
+      <div class="settings"><span class="lang_settings">Settings</span> <img class="settings-icon" src="assets/images/gtkabout.png" alt="Settings icon">
         <ul class="settings__content">
-          <li>English</li>
-          <li>Russian</li>
-          <li>Belarusian</li>
+          <li class="language_variant">English</li>
+          <li class="language_variant">Russian</li>
           <li class="color">Color</li>
+          <!-- <li>Belarusian</li> -->
         </ul>
       </div>
-      <div class="leaderboard">Leaders
+      <div class="leaderboard"><span class="lang_leaderboard">Leaders</span>
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 611.978 611.978" style="enable-background:new 0 0 611.978 611.978;" xml:space="preserve">
           <g>
             <path d="M611.907,131.704V85.418v-0.786c-1.571-16.214-12.357-27-27.786-28.571h-0.786h-92.571V35.204c0-14.643-12.357-27-27-27   H139.836c-14.643,0-27,12.357-27,27v20.857H28.764h-0.786C12.55,56.846,1.764,68.418,0.193,84.632v0.786v46.286   c-0.786,12.357-4.643,131.929,123.429,152c20.071,56.286,66.357,101.071,125,118v76.357l-101.857,48.571c0,0-0.786,0-0.786,0.786   c-14.643,8.5-22.357,20.857-22.357,34.714v15.429v0.786c1.571,15.429,12.357,25.429,28.571,25.429h300.071   c16.214,0,27.786-10,28.571-25.429v-0.786v-15.429c0-13.857-7.714-26.214-22.357-34.714l-0.786-0.786l-100.286-47.857v-77.786   c56.286-17,101.857-60.929,122.643-116.5c43.214-5.429,76.357-21.571,99.5-48.571C615.05,193.418,611.907,139.418,611.907,131.704z    M115.907,253.632C21.05,231.275,27.979,138.704,28.764,134.061c0-0.786,0-0.786,0-1.571V86.204c0-0.786,0-1.571,0-1.571h0.786   h83.286v135.786c0,5.429,0,10,0.786,15.429c0,0.786,0,1.571,0,1.571C114.336,242.846,115.122,247.418,115.907,253.632   C115.907,252.846,115.907,252.846,115.907,253.632z M452.264,561.418v13.143l0,0H151.407l0,0v-13.143   c0-3.857,4.643-7.714,7.714-9.286l104.929-49.357h75.571l104.929,49.357C447.622,553.704,452.264,557.561,452.264,561.418z    M328.05,409.418v64.786h-50.929v-64.786H328.05z M301.836,380.918c-72.5,0-133.429-47.857-153.5-113.429l0,0   c-0.786-3.857-2.286-7.714-3.071-11.571l0,0c-1.571-6.929-2.286-14.643-3.071-21.571c0-0.786,0-1.571,0-2.286   c0-3.857-0.786-6.929-0.786-10.786v-150.5V36.846H461.55v38.571v144.286c0,3.857,0,6.929-0.786,10.786c0,0.786,0,1.571,0,2.286   c0,3.071-0.786,6.929-0.786,10v0.786c-0.786,3.857-1.571,6.929-2.286,10.786c0,0.786,0,1.571-0.786,2.286   c-0.786,3.071-1.571,6.143-2.286,9.286C435.264,332.275,373.55,380.918,301.836,380.918z M557.193,218.132   c-16.214,19.286-39.357,31.643-69.429,37v-0.786c0.786-5.429,1.571-10,2.286-15.429c0-0.786,0-1.571,0-1.571   c0.786-5.429,0.786-10.786,0.786-16.214V84.704h91.786c0.786,0,0.786,0,0.786,0s0,0.786,0,1.571v46.286c0,0.786,0,0.786,0,1.571   C583.407,134.846,587.264,181.846,557.193,218.132z M272.479,313.775c-2.286,5.429-7.714,9.286-13.143,9.286   c-1.571,0-3.071,0-5.429-0.786c-47.071-17.714-57.071-60.143-56.286-79.429v-145c0-7.714,6.143-13.857,13.857-13.857   c7.714,0,13.857,6.143,13.857,13.857v145.786c0,2.286-1.571,37.786,37.786,52.429C271.764,298.346,275.622,306.846,272.479,313.775   z"/>
@@ -35,36 +35,58 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><title/><g id="about"><path d="M16,16A7,7,0,1,0,9,9,7,7,0,0,0,16,16ZM16,4a5,5,0,1,1-5,5A5,5,0,0,1,16,4Z"/><path d="M17,18H15A11,11,0,0,0,4,29a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1A11,11,0,0,0,17,18ZM6.06,28A9,9,0,0,1,15,20h2a9,9,0,0,1,8.94,8Z"/></g></svg>
         <span class="username">guest</span>
         <ul class="user__content">
-          <li class="exit-btn">Выйти</li>
+          <li class="lang_exit exit-btn">Выйти</li>
         </ul>
       </div>
     </div>
   </header>
   <div class="chap-page none">
     <div class="game">
-      <div class="game-field game-field_my">
-        <h2 class="game__title">Sea Battle</h2>
+      <div class="lang_title game-field game-field_my">
+        Морской бой
       </div>
-      <div class="game-field game-field_my"></div>
+      <div class="game-field game-field_my">
+        <form action="">
+        <div class="game-mode_choise">
+          <div class="choise">
+            <div class="lang_choise1 choise_title" onclick="document.querySelector('.choise1').click()">Случайно</div>
+            <input type="radio" checked="true" name="choise" class="choise1">
+          </div>
+          <div class="choise">
+            <input type="radio" name="choise" class="choise2">
+            <div class="lang_choise2 choise_title" onclick="document.querySelector('.choise2').click()">С другом</div>
+          </div>
+
+          
+
+        </div>
+      </form>
+      </div>
       <div class="game-field game-field_enemy">
         <div class="create-game">
           <div class="create-game__options none">
             <p>Cкопируйте ссылку и ожидайте:</p>
             <input class="create-game__input" readonly type="text" value="link/link/link" onFocus="this.select()">
           </div>
-          <button class="button create-game__button">Играть</button>
+          <button class="lang_create button create-game__button">Играть</button>
         </div>
       </div>
     </div>
     <div class="chat-wrapper">
       <div class="chat">
-        <div class="chat__welcome-message">
-          Начените свое общение прямо сейчас
+        <div class="lang_welcome chat__welcome-message">
+          Начните свое общение прямо сейчас
         </div>
       </div>
       <div id="messageForm" class="messageForm">
         <input placeholder="Добавить сообщение" type="text" name="message" id="message" class="message">
-        <button class="submitBtn button">send</button>
+        <button class="submitBtn button">
+          <svg style="width: 70%; height: 200%; position: relative;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 414.287 414.287" xml:space="preserve">
+            <g>
+              <path d="M412.398,202.993L288.535,95.289c-1.502-1.305-3.591-1.699-5.463-1.027c-1.873,0.67-3.237,2.3-3.568,4.261l-8.938,52.887   H40.554c-2.684,0-4.976,1.938-5.423,4.583l-3.054,18.067c-0.27,1.597,0.177,3.23,1.223,4.467c1.045,1.237,2.581,1.95,4.2,1.95   h103.982l-2.208,15H8.134c-2.684,0-4.976,1.938-5.423,4.583l-2.634,15.584c-0.27,1.597,0.177,3.229,1.223,4.467   c1.045,1.236,2.581,1.949,4.2,1.949h159.196l-2.206,15H63.505c-2.684,0-4.976,1.938-5.423,4.583l-2.505,14.817   c-0.271,1.597,0.177,3.229,1.222,4.467c1.046,1.237,2.582,1.95,4.201,1.95h190.721l-8.628,51.053   c-0.366,2.168,0.593,4.346,2.439,5.538c0.908,0.586,1.945,0.879,2.982,0.879c1.07,0,2.141-0.312,3.067-0.935l160.272-107.704   c1.421-0.955,2.316-2.518,2.422-4.225C414.385,205.776,413.689,204.116,412.398,202.993z"/>
+            </g>
+            </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -119,8 +141,10 @@
       </div>
     </div>
   </div>
-  <div class="successful-registration">ну поздравляю, регистрация сработала успешно, за это стоит выпить)</div>
-  <!-- <a href="/ggg" onclick="route()">link</a> -->
+  <div class="successful-registration"><span>Success</span> 
+    <svg style="width: 13%; height: 13%;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="96px" height="96px" viewBox="0 0 96 96" enable-background="new 0 0 96 96" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" fill="#6BBE66" d="M48,0c26.51,0,48,21.49,48,48S74.51,96,48,96S0,74.51,0,48 S21.49,0,48,0L48,0z M26.764,49.277c0.644-3.734,4.906-5.813,8.269-3.79c0.305,0.182,0.596,0.398,0.867,0.646l0.026,0.025 c1.509,1.446,3.2,2.951,4.876,4.443l1.438,1.291l17.063-17.898c1.019-1.067,1.764-1.757,3.293-2.101 c5.235-1.155,8.916,5.244,5.206,9.155L46.536,63.366c-2.003,2.137-5.583,2.332-7.736,0.291c-1.234-1.146-2.576-2.312-3.933-3.489 c-2.35-2.042-4.747-4.125-6.701-6.187C26.993,52.809,26.487,50.89,26.764,49.277L26.764,49.277z"/></g></svg>
+  </div>
+  <!-- <a href="/ggg" onclick="route()">fdsdsf,df;'svd;,sdv'd</a> -->
 </body>
 
 </html>

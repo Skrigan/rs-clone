@@ -1,6 +1,6 @@
 import * as io from "socket.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
-import path from "path";
+// import path from "path";
 export const baseUrl = "https://peachy-ink-production.up.railway.app";
 // export const baseUrl = "http://localhost:5000";
 
@@ -80,10 +80,12 @@ socket.on("message", (message) => {
     break;
   }
   case "globalMessage": {
-    const messageEl = document.createElement("div");
-    messageEl.classList.add("chat-message");
-    messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${responce.message}</div>`;
-    chat?.appendChild(messageEl);
+    if(responce.message !== "") {
+      const messageEl = document.createElement("div");
+      messageEl.classList.add("chat-message");
+      messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${responce.message}</div>`;
+      chat?.appendChild(messageEl);
+    }
     break;
   }
   case "start": {
