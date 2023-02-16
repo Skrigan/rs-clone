@@ -1,3 +1,5 @@
+@import "./color.css";
+
 .chap-page {
   display: flex;
   gap: 20px;
@@ -21,18 +23,18 @@
   font-size: 30px;
   width: 100%;
   margin: 0 auto;
-  max-height: 75vh;
+  max-height: 68vh;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   outline: none;
     &::-webkit-scrollbar {
     width: 7px;
-    background-color: #E5E5E5;
+    background: var(--main-bg-color);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #333333;
+    background: var(--line-color);
     border-radius: 9em;
   }
 
@@ -72,7 +74,7 @@
   border-radius: 5px;
   padding: 10px;
   margin: 10px 0;
-
+  word-wrap: break-word;
 }
 
 .chat-message__username {

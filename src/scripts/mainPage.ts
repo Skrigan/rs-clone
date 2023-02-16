@@ -333,3 +333,6 @@ user?.addEventListener("click", () => user.classList.toggle("user-profile--open"
 
 const exitBtn = document.querySelector(".exit-btn");
 exitBtn?.addEventListener("click", () => pageSwitch());
+
+const color = document.querySelector(".color");
+color?.addEventListener("click", () => document.querySelector(".body")!.classList.toggle("dark"));
