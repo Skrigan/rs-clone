@@ -1,4 +1,5 @@
 import ShipView from "./shipView";
+import ShotView from "./ShotView";
 import Utils from "./utils";
 const utils = new Utils;
 
@@ -123,6 +124,9 @@ class PreparationScene {
     }
 
     // наводка и выстрел
+    // const cells = this.userData.opponent.cells.flat();
+    // cells.forEach((cell: any) => cell.classList.remove("battlefield__item_active"));
+
     // if (utils.isUnderPoint(this.mouse, this.userData.opponent.table)) {
     //   const cell = cells.find((cell: any) => utils.isUnderPoint(this.mouse, cell));
     //   if (cell) {
@@ -134,7 +138,6 @@ class PreparationScene {
     //       // console.log(x, y);
     //       const shot = new ShotView(x, y);
     //       this.userData.opponent.addShot(shot);
-
     //     }
     //   }
     // }
