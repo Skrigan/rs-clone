@@ -2,8 +2,8 @@ import * as io from "socket.io-client";
 // import { successfulRegistrationMessage } from "./";
 import { successfulRegistrationMessage } from "./successfulRegistration";
 // import path from "path";
-export const baseUrl = "https://peachy-ink-production.up.railway.app";
-// export const baseUrl = "http://localhost:5000";
+// export const baseUrl = "https://peachy-ink-production.up.railway.app";
+export const baseUrl = "http://localhost:5000";
 
 const chatPage = document.querySelector(".chap-page");
 const formPage = document.querySelector(".form-page__wrapper");
