@@ -32,6 +32,9 @@ class PreparationScene {
     this.userData = userData;
     this.mouse = mouse;
     setTimeout(() => this.start(), 100);
+    document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
+    document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
+    document.querySelector("[data-type='random']")?.addEventListener("click", () => this.startRandomGame());
   }
 
   // init() {
@@ -48,9 +51,6 @@ class PreparationScene {
   }
 
   start() {
-    document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
-    document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
-    document.querySelector("[data-type='random']")?.addEventListener("click", () => this.startRandomGame());
 
     this.userData.player.randomize(ShipView);
 
