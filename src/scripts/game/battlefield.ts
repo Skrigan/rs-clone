@@ -3,11 +3,21 @@ import Utils from "./utils";
 const utils = new Utils;
 
 class Battlefield {
-  ships: any[] = [];
-  shots = [];
+  ships: any = [];
+  shots: any = [];
 
   _matrix: any = null;
   _changed = true;
+
+  get loser() {
+    for (const ship of this.ships) {
+      if (!ship.killed) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 
   get matrix() {
     if (!this._changed) {
@@ -25,6 +35,8 @@ class Battlefield {
           y,
           ship: null,
           free: true,
+          shoted: false,
+          wounded: false,
         };
 
         row.push(item);
@@ -60,9 +72,84 @@ class Battlefield {
       }
     }
 
+    for (const { x, y } of this.shots) {
+      const item = matrix[y][x];
+      item.shoted = true;
+
+      if (item.ship) {
+        item.wounded = true;
+      }
+    }
+
     this._matrix = matrix;
     this._changed = false;
     return this._matrix;
+  }
+
+  get complete() {
+    if (this.ships.length !== 10) {
+      return false;
+    }
+
+    for (const ship of this.ships) {
+      if (!ship.placed) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  addShot(shot: any) {
+    for (const { x, y } of this.shots) {
+      if (x === shot.x && y === shot.y) {
+        return false;
+      }
+    }
+
+    this.shots.push(shot);
+    this._changed = true;
+
+    const matrix = this.matrix;
+    const { x, y } = shot;
+
+    if (matrix[y][x].ship) {
+      shot.setVariant("wounded");
+
+      const { ship } = matrix[y][x];
+      const dx: any = ship.direction === "row";
+      const dy: any = ship.direction === "column";
+
+      let killed = true;
+
+      for (let i = 0; i < ship.size; i++) {
+        const cx = ship.x + dx * i;
+        const cy = ship.y + dy * i;
+        const item = matrix[cy][cx];
+
+        if (!item.wounded) {
+          killed = false;
+          break;
+        }
+      }
+
+      if (killed) {
+        ship.killed = true;
+
+        for (let i = 0; i < ship.size; i++) {
+          const cx = ship.x + dx * i;
+          const cy = ship.y + dy * i;
+
+          const shot = this.shots.find(
+            (shot: any) => shot.x === cx && shot.y === cy
+          );
+          shot.setVariant("killed");
+        }
+      }
+    }
+
+    this._changed = true;
+    return true;
   }
 
   inField(x: any, y: any) {
@@ -121,7 +208,8 @@ class Battlefield {
     if (!this.ships.includes(ship)) {
       return false;
     }
-    this.ships.splice(this.ships.indexOf(ship), 1);
+    const index = this.ships.indexOf(ship);
+    this.ships.splice(index, 1);
 
     ship.x = null;
     ship.y = null;
@@ -140,23 +228,27 @@ class Battlefield {
     return ships.length;
   }
 
-  // addShot() {
-  // this._changed = true;
-  // }
+  removeShot(shot: any) {
+    if (!this.shots.includes(shot)) {
+      return false;
+    }
 
-  // removeShot() {
-  //this._changed = true;
-  // }
+    const index = this.shots.indexOf(shot);
+    this.shots.splice(index, 1);
 
-  // removeAllShots() {
-  //   const shots = this.shots.slice();
+    this._changed = true;
+    return true;
+  }
 
-  //   for (const shot of shots) {
-  //     this.removeShot(shot);
-  //   }
+  removeAllShots() {
+    const shots = this.shots.slice();
 
-  //   return shots.length;
-  // }
+    for (const shot of shots) {
+      this.removeShot(shot);
+    }
+
+    return shots.length;
+  }
 
   randomize(ShipClass = Ship) {
     this.removeAllShips();
@@ -171,10 +263,15 @@ class Battlefield {
           const y = utils.getRandomBetween(0, 9);
 
           this.removeShip(ship);
-          this.addShip(ship, x, y); // - не тот addShip, а может и тот...
+          this.addShip(ship, x, y);
         }
       }
     }
+  }
+
+  clear() {
+    this.removeAllShots();
+    this.removeAllShips();
   }
 }
 

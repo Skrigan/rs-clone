@@ -3,10 +3,10 @@ import Utils from "./utils";
 const utils = new Utils;
 
 class ShipView extends Ship {
-  div!: HTMLElement;
+  div: any = null;
 
-  startX = null;
-  startY = null;
+  startX: any = null;
+  startY: any = null;
 
   constructor(size: number, direction: string, startX: number, startY: number) {
     super(size, direction);

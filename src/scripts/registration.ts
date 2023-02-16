@@ -218,7 +218,6 @@ const submitInfo = (event: Event, authorizationType: string, form: { username: s
       socket.send(JSON.stringify(payLoad));
     }
     const game = new Game(userData);
-    // game.init();
     console.log(userData);
   }
 };

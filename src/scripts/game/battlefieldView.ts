@@ -4,13 +4,14 @@ const utils: Utils = new Utils;
 
 class BattlefieldView extends Battlefield {
   root!: any;
-  table!: Node;
+  table!: any;
   dock!: any;
-  polygon!: Node;
+  polygon!: any;
+  showShips: any = true;
 
   cells: any[] = [];
 
-  constructor() {
+  constructor(showShips: any) {
     super();
     const root = document.createElement("div");
     root.classList.add("battlefield");
@@ -24,7 +25,7 @@ class BattlefieldView extends Battlefield {
     const polygon = document.createElement("div");
     polygon.classList.add("battlefield__polygon");
 
-    Object.assign(this, { root, table, dock, polygon });
+    Object.assign(this, { root, table, dock, polygon, showShips });
     root.append(table, dock, polygon);
 
     for (let y = 0; y < 10; y++) {
@@ -71,20 +72,23 @@ class BattlefieldView extends Battlefield {
     if (!super.addShip(ship, x, y)) {
       return false;
     }
-    this.dock.appendChild(ship.div);
 
-    if (ship.placed) {
-      const cell = this.cells[y][x];
-      const cellRect = cell.getBoundingClientRect();
-      const rootRect = this.root.getBoundingClientRect();
-      ship.div.style.left = `${cellRect.left - rootRect.left}px`;
-      ship.div.style.top = `${cellRect.top - rootRect.top}px`;
-    } else {
-      ship.setDirection("row");
-      ship.div.style.left = `${ship.startX}px`;
-      ship.div.style.top = `${ship.startY}px`;
+    if (this.showShips) {
+      this.dock.appendChild(ship.div);
+    
+      if (ship.placed) {
+        const cell = this.cells[y][x];
+  
+        const cellRect = cell.getBoundingClientRect();
+        const rootRect = this.root.getBoundingClientRect();
+        ship.div.style.left = `${cellRect.left - rootRect.left}px`;
+        ship.div.style.top = `${cellRect.top - rootRect.top}px`;
+      } else {
+        ship.setDirection("row");
+        ship.div.style.left = `${ship.startX}px`;
+        ship.div.style.top = `${ship.startY}px`;
+      }
     }
-
     return true;
   }
 
@@ -102,6 +106,35 @@ class BattlefieldView extends Battlefield {
 
   isUnder(point: any) {
     return utils.isUnderPoint(point, this.root);
+  }
+
+  addShot(shot: any) {
+    if (!super.addShot(shot)) {
+      return false;
+    }
+
+    this.polygon.append(shot.div);
+
+    const cell = this.cells[shot.y][shot.x];
+    const cellRect = cell.getBoundingClientRect();
+    const rootRect = this.root.getBoundingClientRect();
+
+    shot.div.style.left = `${cellRect.left - rootRect.left}px`;
+    shot.div.style.top = `${cellRect.top - rootRect.top}px`;
+
+    return true;
+  }
+
+  removeShot(shot: any) {
+    if (!super.removeShot(shot)) {
+      return false;
+    }
+
+    if (Array.prototype.includes.call(this.polygon.children, shot.div)) {
+      shot.div.remove();
+    }
+
+    return true;
   }
 }
 
