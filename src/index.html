@@ -42,52 +42,47 @@
   </header>
   <div class="chap-page none">
     <div class="game">
-      <div class="lang_title game-field game-field_my">
-        Морской бой
-      </div>
-      <div class="game-field game-field_my">
-        <form action="">
-        <div class="game-mode_choise">
-          <div class="choise">
-            <div class="lang_choise1 choise_title" onclick="document.querySelector('.choise1').click()">Случайно</div>
-            <input type="radio" checked="true" name="choise" class="choise1">
-          </div>
-          <div class="choise">
-            <input type="radio" name="choise" class="choise2">
-            <div class="lang_choise2 choise_title" onclick="document.querySelector('.choise2').click()">С другом</div>
-          </div>
-
-          
-
+      <div data-side="player"></div>
+      <div data-side="opponent">
+        <div class="app-actions" data-scene="preparation">
+          <!-- <button class="app-action" data-computer="simple" disabled>
+            Играть против слабока
+          </button>
+          <button class="app-action" data-computer="middle" disabled>
+            Играть против среднего
+          </button>
+          <button class="app-action" data-computer="hard" disabled>
+            Играть против сильного
+          </button> -->
+          <button class="app-action" data-type="random" disabled>
+            Играть против случайного игрока
+          </button>
+          <button class="app-action" data-type="challenge" disabled>
+            Вызвать на бой
+          </button>
+          <button class="app-action" data-type="takeChallenge" disabled>
+            Принять вызов
+          </button>
+          <button class="app-action" data-action="manually">
+            Расставить корабли вручную
+          </button>
+          <button class="app-action" data-action="randomize">
+            Расставить корабли случайно
+          </button>
         </div>
-      </form>
-      </div>
-      <div class="game-field game-field_enemy">
-        <div class="create-game">
-          <div class="create-game__options none">
+        <!-- <div class="create-game" style="display: none;"> -->
+          <!-- <div class="create-game__options none">
             <p>Cкопируйте ссылку и ожидайте:</p>
             <input class="create-game__input" readonly type="text" value="link/link/link" onFocus="this.select()">
           </div>
-          <button class="lang_create button create-game__button">Играть</button>
-        </div>
+          <button class="button create-game__button">Играть</button> -->
+        <!-- </div> -->
       </div>
     </div>
-    <div class="chat-wrapper">
-      <div class="chat">
-        <div class="lang_welcome chat__welcome-message">
-          Начните свое общение прямо сейчас
-        </div>
-      </div>
-      <div id="messageForm" class="messageForm">
-        <input placeholder="Добавить сообщение" type="text" name="message" id="message" class="message">
-        <button class="submitBtn button">
-          <svg style="width: 70%; height: 200%; position: relative;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 414.287 414.287" xml:space="preserve">
-            <g>
-              <path d="M412.398,202.993L288.535,95.289c-1.502-1.305-3.591-1.699-5.463-1.027c-1.873,0.67-3.237,2.3-3.568,4.261l-8.938,52.887   H40.554c-2.684,0-4.976,1.938-5.423,4.583l-3.054,18.067c-0.27,1.597,0.177,3.23,1.223,4.467c1.045,1.237,2.581,1.95,4.2,1.95   h103.982l-2.208,15H8.134c-2.684,0-4.976,1.938-5.423,4.583l-2.634,15.584c-0.27,1.597,0.177,3.229,1.223,4.467   c1.045,1.236,2.581,1.949,4.2,1.949h159.196l-2.206,15H63.505c-2.684,0-4.976,1.938-5.423,4.583l-2.505,14.817   c-0.271,1.597,0.177,3.229,1.222,4.467c1.046,1.237,2.582,1.95,4.201,1.95h190.721l-8.628,51.053   c-0.366,2.168,0.593,4.346,2.439,5.538c0.908,0.586,1.945,0.879,2.982,0.879c1.07,0,2.141-0.312,3.067-0.935l160.272-107.704   c1.421-0.955,2.316-2.518,2.422-4.225C414.385,205.776,413.689,204.116,412.398,202.993z"/>
-            </g>
-            </svg>
-        </button>
-      </div>
+    <div class="chat"></div>
+    <div id="messageForm" class="messageForm" style="display: none;">
+      <input type="text" name="message" id="message" class="message">
+      <button class="submitBtn button">send</button>
     </div>
   </div>
 

@@ -1,5 +1,146 @@
-.game__title {
-    font-size: 26px;
-    margin: 15px auto;
+.battlefield {
+  position: relative;
+  user-select: none;
+
+  &__table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    background: rgba(40, 46, 250, 0.05);
+  }
+
+  &__item {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(6, 25, 247, 0.15);
+    
+    &_active {
+      background: rgba(123, 121, 255, 0.2);
+    }
+  }
+
+  .marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     text-align: center;
+
+    &__row {
+      left: -35px;
+    }
+
+    &__col {
+      top: -35px;
+    }
+  }
+
+  .ship {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 3px solid #0400ff;
+    background: rgba(0, 55, 255, 0.45);
+    width: 32px;
+    height: 32px;
+
+    &_row-1 {}
+
+    &_row-2 {
+      width: 65px;
+    }
+
+    &_row-3 {
+      width: 98px;
+    }
+
+    &_row-4 {
+      width: 131px;
+    }
+
+    &_column-1 {}
+
+    &_column-2 {
+      height: 65px;
+    }
+
+    &_column-3 {
+      height: 98px;
+    }
+
+    &_column-4 {
+      height: 131px;
+    }
+  }
+}
+
+.app-actions {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app-action {
+  width: 210px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.shot {
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.shot-missed {
+  /* color: gray; */
+  font-size: 32px;
+  color: "black";
+}
+
+.shot-wounded {
+  background: #fbdede;
+  z-index: 1;
+}
+
+.shot-wounded::after {
+  content: " ";
+  width: calc(32px * 1.3);
+  height: calc(32px * 1.3);
+  border-top: 2px solid red;
+  position: absolute;
+  z-index: -1;
+  transform: rotate(45deg);
+  top: 9px;
+  left: -20px;
+}
+
+.shot-wounded::before {
+  content: " ";
+  width: calc(32px * 1.3);
+  height: calc(32px * 1.3);
+  border-top: 2px solid red;
+  position: absolute;
+  z-index: -1;
+  transform: rotate(-45deg);
+  top: 9px;
+  left: 9px;
+}
+
+.shot-killed {
+  margin: -3px;
+  border: 3px solid red;
+}
+
+[data-side="opponent"] .battlefield {
+  display: none;
 }

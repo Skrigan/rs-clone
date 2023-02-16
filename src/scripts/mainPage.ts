@@ -24,9 +24,12 @@ header?.classList.add("none");
 //   }
 // }
 
+import Game from "./game";
 const userData = {
   username: "",
   password: "",
+  player: "",
+  opponent: ""
 };
 
 let gameId: string;
@@ -267,6 +270,8 @@ const submitInfo = (
       };
       socket.send(JSON.stringify(payLoad));
     }
+    const game = new Game(userData);
+    console.log(userData);
   }
 };
 
@@ -338,3 +343,4 @@ exitBtn?.addEventListener("click", () => pageSwitch());
 
 const color = document.querySelector(".color");
 color?.addEventListener("click", () => document.querySelector(".body")!.classList.toggle("dark"));
+
