@@ -31,7 +31,7 @@ class PreparationScene {
   constructor(userData: any, mouse: any) {
     this.userData = userData;
     this.mouse = mouse;
-    setTimeout(() => this.start(), 100);
+    this.manually();
     document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
     document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
     document.querySelector("[data-type='random']")?.addEventListener("click", () => this.startRandomGame());
