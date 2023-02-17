@@ -4,6 +4,7 @@ import ShotView from "./game/ShotView";
 import Mouse from "./game/mouse";
 import Utils from "./game/utils";
 import PreparationScene from "./game/preparationScene";
+
 const utils = new Utils;
 
 class Game {

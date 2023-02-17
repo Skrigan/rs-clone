@@ -47,6 +47,7 @@ languages.forEach(lang => {
 
 function changeStorage(lang: HTMLLIElement) {
   const mustLang = lang.innerText;
+
   localStorage.setItem("currentLang", mustLang);
 
   changeLanguage();
@@ -62,7 +63,11 @@ function changeLanguage() {
   for (const text in langObj) {
     const textsToTranslate = document.querySelector(".lang_" + text) as HTMLDivElement;
 
-    textsToTranslate.innerText = langObj[text][currentLang!];
+    if(textsToTranslate) {
+      textsToTranslate.innerText = langObj[text][currentLang!];
+    }
+
+    // textsToTranslate.innerText = langObj[text][currentLang!];
   }
 
   const messageInput = document.querySelector(".message") as HTMLInputElement;

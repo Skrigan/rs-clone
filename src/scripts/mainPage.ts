@@ -1,13 +1,15 @@
 import * as io from "socket.io-client";
 // import { successfulRegistrationMessage } from "./";
 import { successfulRegistrationMessage } from "./successfulRegistration";
+import formSwitch from "./autorithForm";
+import { visiblePassword, checkRegistrationInputLength, checkLoginInputLength, clearErrors, checkConfirmPassword, isValidEmail, createUser, pageSwitch } from "./autorithForm";
 // import path from "path";
-// export const baseUrl = "https://peachy-ink-production.up.railway.app";
-export const baseUrl = "http://localhost:5000";
+export const baseUrl = "https://peachy-ink-production.up.railway.app";
+// export const baseUrl = "http://localhost:5000";
 
-const chatPage = document.querySelector(".chap-page");
-const formPage = document.querySelector(".form-page__wrapper");
-const header = document.querySelector(".header");
+const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
+const formPage = document.querySelector(".form-page__wrapper") as HTMLDivElement;
+const header = document.querySelector(".header") as HTMLDivElement;
 
 header?.classList.add("none");
 
@@ -121,120 +123,19 @@ body!.addEventListener("keydown", (event) => {
 });
 
 /////////////////////switch form
+
 const formHeader = document.querySelector(".form-header") as HTMLElement;
-
-const formSwitch = (event: Event) => {
-  const target = event.target as HTMLElement;
-
-  if (target.classList.contains("login-title")) {
-    document.querySelector(".login-title")?.classList.add("active");
-    document.querySelector(".registration-title")?.classList.remove("active");
-    document.querySelector(".registration-form")?.classList.remove("active");
-    document.querySelector(".login-form")?.classList.add("active");
-  }
-
-  if (target.classList.contains("registration-title")) {
-    document.querySelector(".registration-title")?.classList.add("active");
-    document.querySelector(".login-title")?.classList.remove("active");
-    document.querySelector(".registration-form")?.classList.add("active");
-    document.querySelector(".login-form")?.classList.remove("active");
-  }
-};
-
 formHeader?.addEventListener("click", formSwitch);
 
 /////////////////////visible password
-const visiblePassword = (event: Event) => {
-  const target = event.target as HTMLElement;
-  const parentTarget = target.parentElement as HTMLElement;
-  const passwordInput =
-    parentTarget.parentElement?.querySelector(".password-input");
-
-  if (parentTarget.classList.contains("password-control")) {
-    if (target.classList.contains("visible-password")) {
-      target.setAttribute("src", "assets/images/password-on.svg");
-      passwordInput?.setAttribute("type", "password");
-    } else {
-      target.setAttribute("src", "assets/images/password-off.svg");
-      passwordInput?.setAttribute("type", "text");
-    }
-    target.classList.toggle("visible-password");
-  }
-};
 
 const formContainer = document.querySelector(".form-container");
 formContainer?.addEventListener("click", visiblePassword);
 
 //////////////////////validate input
-const registrationForm = document.querySelector(".registration-form");
-const loginForm = document.querySelector(".login-form");
 
-const checkLength = (...inputsArr: Array<HTMLInputElement>) => {
-  for (const input of inputsArr) {
-    input.value.length < 3 ? input.classList.add("error") : true;
-  }
-};
-
-const checkRegistrationInputLength = () => {
-  const firstPassword = registrationForm?.querySelector(
-    ".first-password"
-  ) as HTMLInputElement;
-  const confirmPassword = registrationForm?.querySelector(
-    ".confirm-password"
-  ) as HTMLInputElement;
-  const username = registrationForm?.querySelector(
-    ".username-input"
-  ) as HTMLInputElement;
-  userData.username = username.value;
-  userData.password = firstPassword.value;
-  checkLength(firstPassword, confirmPassword, username);
-};
-
-const checkLoginInputLength = () => {
-  const password = loginForm?.querySelector(
-    ".password-input"
-  ) as HTMLInputElement;
-  const username = loginForm?.querySelector(
-    ".username-input"
-  ) as HTMLInputElement;
-  userData.username = username.value;
-  userData.password = password.value;
-  checkLength(password, username);
-};
-
-const clearErrors = () => {
-  const errors = document.querySelectorAll(".error");
-  for (let i = 0; i < errors.length; i++) {
-    errors[i].classList.remove("error");
-  }
-};
-
-function checkConfirmPassword() {
-  const firstPassword = registrationForm?.querySelector(
-    ".first-password"
-  ) as HTMLInputElement;
-  const confirmPassword = registrationForm?.querySelector(
-    ".confirm-password"
-  ) as HTMLInputElement;
-
-  if (firstPassword.value !== confirmPassword.value) {
-    firstPassword.classList.add("error");
-    confirmPassword.classList.add("error");
-  }
-}
-
-function isValidEmail() {
-  const emailInput = registrationForm?.querySelector(
-    ".email-address__input"
-  ) as HTMLInputElement;
-  if (
-    !/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/.test(
-      emailInput.value
-    )
-  ) {
-    emailInput.classList.add("error");
-  }
-}
+const registrationForm = document.querySelector(".registration-form") as HTMLDivElement;
+const loginForm = document.querySelector(".login-form") as HTMLDivElement;
 
 const submitInfo = (
   event: Event,
@@ -248,9 +149,8 @@ const submitInfo = (
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
 
-  // const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
   if (!errors.length) {
-    createUser(authorizationType, form);
+    createUser(authorizationType, form, baseUrl, loginPage, header);
     target.reset();
     const payLoad = {
       method: "autorize",
@@ -279,16 +179,16 @@ const submitInfo = (
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
-  checkConfirmPassword();
-  checkRegistrationInputLength();
-  isValidEmail();
+  checkConfirmPassword(registrationForm);
+  checkRegistrationInputLength(registrationForm, userData);
+  isValidEmail(registrationForm);
   submitInfo(event, "registration", userData);
 };
 
 const validateLoginForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
-  checkLoginInputLength();
+  checkLoginInputLength(loginForm, userData);
   submitInfo(event, "login", userData);
   console.log("username: ", userData.username);
 };
@@ -297,39 +197,6 @@ registrationForm?.addEventListener("submit", validateRegistrationForm);
 loginForm?.addEventListener("submit", validateLoginForm);
 
 const loginPage = document.querySelector(".login-title") as HTMLDivElement;
-
-const createUser = async (
-  authorizationType: string,
-  form: { username: string; password: string }
-) => {
-  const result = await fetch(`${baseUrl}/${authorizationType}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-
-    body: JSON.stringify(form),
-  });
-  const data = await result.json();
-  if (data.message === "Пользователь успешно зарегистрирован") {
-    loginPage.click();
-    successfulRegistrationMessage();
-  }
-  if (data.token) {
-    pageSwitch();
-    data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
-    const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
-    usernameSpan.innerText = localStorage.getItem("isAutorith")!;
-    header?.classList.remove("none");
-    return data;
-  }
-};
-
-const pageSwitch = () => {
-  formPage?.classList.toggle("none");
-  chatPage?.classList.toggle("none");
-  header?.classList.toggle("none");
-};
 
 const settings = document.querySelector(".settings");
 settings?.addEventListener("click", () =>
@@ -340,7 +207,7 @@ const user = document.querySelector(".user");
 user?.addEventListener("click", () => user.classList.toggle("user-profile--open"));
 
 const exitBtn = document.querySelector(".exit-btn");
-exitBtn?.addEventListener("click", () => pageSwitch());
+exitBtn?.addEventListener("click", () => pageSwitch(formPage, chatPage, header));
 
 const color = document.querySelector(".color");
 color?.addEventListener("click", () => document.querySelector(".body")!.classList.toggle("dark"));
