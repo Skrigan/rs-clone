@@ -1,20 +1,24 @@
 import * as io from "socket.io-client";
-// import { successfulRegistrationMessage } from "./";
-import { successfulRegistrationMessage } from "./successfulRegistration";
 import formSwitch from "./autorithForm";
-import { visiblePassword, checkRegistrationInputLength, checkLoginInputLength, clearErrors, checkConfirmPassword, isValidEmail, createUser, pageSwitch } from "./autorithForm";
-// import path from "path";
+import {
+  visiblePassword,
+  checkRegistrationInputLength,
+  checkLoginInputLength,
+  clearErrors,
+  checkConfirmPassword,
+  isValidEmail,
+  submitInfo
+} from "./autorithForm";
+import headerFucntions from "./headerFunctions";
+
 export const baseUrl = "https://peachy-ink-production.up.railway.app";
 // export const baseUrl = "http://localhost:5000";
 
-const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
-const formPage = document.querySelector(".form-page__wrapper") as HTMLDivElement;
 const header = document.querySelector(".header") as HTMLDivElement;
 
 header?.classList.add("none");
 
-// autorithCheck();
-
+// autorithCheck();  // TODO better autorithation
 // function autorithCheck() {
 //   if(localStorage.getItem("isAutorith")) {
 //     formPage?.classList.add("none");
@@ -32,7 +36,7 @@ const userData = {
   username: "",
   password: "",
   player: "",
-  opponent: ""
+  opponent: "",
 };
 
 let gameId: string;
@@ -40,8 +44,6 @@ const createGameBtn = document.querySelector(
   ".create-game__button"
 ) as HTMLButtonElement;
 const createGameOptions = document.querySelector(".create-game__options");
-
-// const userName = (document.querySelector(".username") as HTMLSpanElement).innerText;
 
 const createGameEvent = () => {
   createGameBtn?.classList.add("disabled");
@@ -86,10 +88,14 @@ socket.on("message", (message) => {
     break;
   }
   case "globalMessage": {
-    if(responce.message !== "") {
+    if (responce.message !== "") {
       const messageEl = document.createElement("div");
       messageEl.classList.add("chat-message");
-      messageEl.innerHTML = `<div class="chat-message__username">${responce.username}<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${responce.message}</div>`;
+      messageEl.innerHTML = `<div class="chat-message__username">${
+        responce.username
+      }<span class="chat-message__time">${setMessageTime()}</span></div><div class="chat-message__content">${
+        responce.message
+      }</div>`;
       chat?.appendChild(messageEl);
     }
     break;
@@ -134,47 +140,10 @@ formContainer?.addEventListener("click", visiblePassword);
 
 //////////////////////validate input
 
-const registrationForm = document.querySelector(".registration-form") as HTMLDivElement;
+const registrationForm = document.querySelector(
+  ".registration-form"
+) as HTMLDivElement;
 const loginForm = document.querySelector(".login-form") as HTMLDivElement;
-
-const submitInfo = (
-  event: Event,
-  authorizationType: string,
-  form: { username: string; password: string }
-) => {
-  if (authorizationType === "login") {
-    localStorage.setItem("isAutorith", `${form.username}`);
-  }
-
-  const target = event.target as HTMLFormElement;
-  const errors = target?.querySelectorAll(".error");
-
-  if (!errors.length) {
-    createUser(authorizationType, form, baseUrl, loginPage, header);
-    target.reset();
-    const payLoad = {
-      method: "autorize",
-      // username: userName,
-      username: userData.username,
-    };
-    socket.send(JSON.stringify(payLoad));
-    const hash = window.location.hash;
-    if (hash) {
-      const arr = hash.split("=");
-      const index = arr.indexOf("#gameId");
-      gameId = arr[index + 1];
-      const payLoad = {
-        method: "join",
-        // username: userName,
-        username: userData.username,
-        gameId: gameId,
-      };
-      socket.send(JSON.stringify(payLoad));
-    }
-    const game = new Game(userData);
-    console.log(userData);
-  }
-};
 
 const validateRegistrationForm = (event: Event) => {
   event.preventDefault();
@@ -182,14 +151,14 @@ const validateRegistrationForm = (event: Event) => {
   checkConfirmPassword(registrationForm);
   checkRegistrationInputLength(registrationForm, userData);
   isValidEmail(registrationForm);
-  submitInfo(event, "registration", userData);
+  submitInfo(event, "registration", userData, baseUrl, loginPage, header, userData, socket, gameId, Game);
 };
 
 const validateLoginForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
   checkLoginInputLength(loginForm, userData);
-  submitInfo(event, "login", userData);
+  submitInfo(event, "login", userData, baseUrl, loginPage, header, userData, socket, gameId, Game);
   console.log("username: ", userData.username);
 };
 
@@ -198,17 +167,4 @@ loginForm?.addEventListener("submit", validateLoginForm);
 
 const loginPage = document.querySelector(".login-title") as HTMLDivElement;
 
-const settings = document.querySelector(".settings");
-settings?.addEventListener("click", () =>
-  settings.classList.toggle("settings-open")
-);
-
-const user = document.querySelector(".user");
-user?.addEventListener("click", () => user.classList.toggle("user-profile--open"));
-
-const exitBtn = document.querySelector(".exit-btn");
-exitBtn?.addEventListener("click", () => pageSwitch(formPage, chatPage, header));
-
-const color = document.querySelector(".color");
-color?.addEventListener("click", () => document.querySelector(".body")!.classList.toggle("dark"));
-
+headerFucntions(); // settings, user, leaders

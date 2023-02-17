@@ -1,3 +1,4 @@
+import { Socket } from "engine.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
 
 const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
@@ -140,6 +141,46 @@ export const pageSwitch = (formPage: HTMLDivElement, chatPage: HTMLDivElement, h
   formPage?.classList.toggle("none");
   chatPage?.classList.toggle("none");
   header?.classList.toggle("none");
+};
+
+export const submitInfo = (
+  event: Event,
+  authorizationType: string,
+  form: { username: string; password: string },
+  baseUrl: string, loginPage: HTMLDivElement, header: HTMLDivElement, userData: any, socket: any, gameId: string, Game: any
+) => {
+  if (authorizationType === "login") {
+    localStorage.setItem("isAutorith", `${form.username}`);
+  }
+
+  const target = event.target as HTMLFormElement;
+  const errors = target?.querySelectorAll(".error");
+
+  if (!errors.length) {
+    createUser(authorizationType, form, baseUrl, loginPage, header);
+    target.reset();
+    const payLoad = {
+      method: "autorize",
+      // username: userName,
+      username: userData.username,
+    };
+    socket.send(JSON.stringify(payLoad));
+    const hash = window.location.hash;
+    if (hash) {
+      const arr = hash.split("=");
+      const index = arr.indexOf("#gameId");
+      gameId = arr[index + 1];
+      const payLoad = {
+        method: "join",
+        // username: userName,
+        username: userData.username,
+        gameId: gameId,
+      };
+      socket.send(JSON.stringify(payLoad));
+    }
+    const game = new Game(userData);
+    console.log(userData);
+  }
 };
 
 
