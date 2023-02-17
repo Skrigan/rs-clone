@@ -1,4 +1,3 @@
-import { Socket } from "engine.io-client";
 import { successfulRegistrationMessage } from "./successfulRegistration";
 
 const chatPage = document.querySelector(".chap-page") as HTMLDivElement;

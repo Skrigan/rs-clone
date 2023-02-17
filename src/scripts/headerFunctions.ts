@@ -1,10 +1,10 @@
 import { pageSwitch } from "./autorithForm";
 
-const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
-const formPage = document.querySelector(
-  ".form-page__wrapper"
-) as HTMLDivElement;
-const header = document.querySelector(".header") as HTMLDivElement;
+// const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
+// const formPage = document.querySelector(
+//   ".form-page__wrapper"
+// ) as HTMLDivElement;
+// const header = document.querySelector(".header") as HTMLDivElement;
 const settings = document.querySelector(".settings");
 
 const headerFucntions = () => {
@@ -19,7 +19,8 @@ const headerFucntions = () => {
 
   const exitBtn = document.querySelector(".exit-btn");
   exitBtn?.addEventListener("click", () =>
-    pageSwitch(formPage, chatPage, header)
+    // pageSwitch(formPage, chatPage, header)
+    location.reload()
   );
 
   const color = document.querySelector(".color");

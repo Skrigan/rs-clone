@@ -4,10 +4,12 @@
   display: flex;
   gap: 20px;
   padding: 70px 20px;
+  padding-bottom: 0;
 }
 
 .chat-wrapper {
   width: 40%;
+  height: 83vh;
   flex-direction: column;
   display: flex;
   justify-content: space-between;
