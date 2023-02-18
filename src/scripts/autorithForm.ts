@@ -121,6 +121,10 @@ export const createUser = async (
 
     body: JSON.stringify(form),
   });
+  // console.log("result =", result);
+  if (!result.ok) {
+    return false;
+  }
   const data = await result.json();
   if (data.message === "Пользователь успешно зарегистрирован") {
     loginPage.click();
@@ -142,11 +146,11 @@ export const pageSwitch = (formPage: HTMLDivElement, chatPage: HTMLDivElement, h
   header?.classList.toggle("none");
 };
 
-export const submitInfo = (
+export const submitInfo = async (
   event: Event,
   authorizationType: string,
   form: { username: string; password: string },
-  baseUrl: string, loginPage: HTMLDivElement, header: HTMLDivElement, userData: any, socket: any, gameId: string, Game: any
+  baseUrl: string, loginPage: HTMLDivElement, header: HTMLDivElement, userData: any, socket: any, gameId: string, Game: any, isLogin: boolean
 ) => {
   if (authorizationType === "login") {
     localStorage.setItem("isAutorith", `${form.username}`);
@@ -155,30 +159,32 @@ export const submitInfo = (
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
 
-  if (!errors.length) {
-    createUser(authorizationType, form, baseUrl, loginPage, header);
+  if (!errors.length && await createUser(authorizationType, form, baseUrl, loginPage, header)) {
     target.reset();
-    const payLoad = {
-      method: "autorize",
-      // username: userName,
-      username: userData.username,
-    };
-    socket.send(JSON.stringify(payLoad));
-    const hash = window.location.hash;
-    if (hash) {
-      const arr = hash.split("=");
-      const index = arr.indexOf("#gameId");
-      gameId = arr[index + 1];
+    if (isLogin) {
       const payLoad = {
-        method: "join",
+        method: "autorize",
         // username: userName,
         username: userData.username,
-        gameId: gameId,
       };
       socket.send(JSON.stringify(payLoad));
+      const hash = window.location.hash;
+      if (hash) {
+        const arr = hash.split("=");
+        const index = arr.indexOf("#gameId");
+        gameId = arr[index + 1];
+        const payLoad = {
+          method: "join",
+          // username: userName,
+          username: userData.username,
+          gameId: gameId,
+        };
+        socket.send(JSON.stringify(payLoad));
+      }
+      const game = new Game(userData);
+      console.log(userData);
     }
-    const game = new Game(userData);
-    console.log(userData);
+
   }
 };
 
