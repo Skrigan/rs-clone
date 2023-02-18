@@ -1,3 +1,5 @@
+@import "./color.css";
+
 .battlefield {
   position: relative;
   user-select: none;
@@ -142,4 +144,8 @@
 
 [data-side="opponent"] .battlefield {
   display: none;
+}
+
+.app-action {
+  background: var(--btn-color);
 }

@@ -224,7 +224,7 @@
   border-radius: 20px;
   border: 1px solid #666565;
   font-size: 25px;
-  max-width: 240px;
+  
   transition: 0.5s;
   display: flex;
   justify-content: space-around;
@@ -232,6 +232,15 @@
 }
 
 .successful-registration.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+.incorrect-password {
+  @extend .successful-registration;
+}
+
+.incorrect-password.active {
   opacity: 1;
   z-index: 10;
 }
