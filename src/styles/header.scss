@@ -52,7 +52,7 @@ body {
 .settings__content {
     display: none;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
     position: absolute;
     top: 100%;
     left: -6px;
@@ -132,4 +132,55 @@ body {
     background: var(--header-bg-color);
     border-radius: 10px;
     border: 1px solid #30363d;
+}
+
+.language_list {
+    padding: 0 10px 0 0;
+    position: relative;
+    cursor: pointer;
+    gap: 10px;
+    transition: 0.5s;
+    &:hover {
+        .language__content {
+            display: flex;
+        }
+    }
+}
+
+.language__content {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    top: 0;
+    left: 100%;
+    padding: 20px;
+    background: var(--header-bg-color);
+    border-radius: 10px;
+    border: 1px solid #30363d;
+}
+
+.theme-icon {
+    position: relative;
+}
+
+.sun,
+.moon {
+    position: absolute;
+    top: -25px;
+    width: 30px;
+    left: 61px;
+    height: 30px;
+    transform: rotateY(0deg);
+    transition: 0.5s;
+    z-index: 2;
+    opacity: 1;
+}
+
+.icon-invisible {
+    transform:  translate(20px, 15px);
+    transition: 0.5s;
+    z-index: 1;
+    opacity: 0;
+
 }

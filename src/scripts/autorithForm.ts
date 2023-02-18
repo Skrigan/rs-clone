@@ -1,4 +1,5 @@
 import { successfulRegistrationMessage } from "./successfulRegistration";
+import { incorrectPassword } from "./incorrectPassword";
 
 const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
 const formPage = document.querySelector(".form-page__wrapper") as HTMLDivElement;
@@ -130,9 +131,13 @@ export const createUser = async (
     loginPage.click();
     successfulRegistrationMessage();
   }
+  if (data.message === "Неверный пароль") {
+    console.log("s");
+    
+    incorrectPassword();
+  }
   if (data.token) {
     pageSwitch(formPage, chatPage, header);
-    data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
     const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
     usernameSpan.innerText = localStorage.getItem("isAutorith")!;
     header?.classList.remove("none");
