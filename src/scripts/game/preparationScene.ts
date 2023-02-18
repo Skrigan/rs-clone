@@ -1,3 +1,4 @@
+import OnlineScene from "./OnlineScene";
 import ShipView from "./shipView";
 import ShotView from "./ShotView";
 import Utils from "./utils";
@@ -27,14 +28,19 @@ class PreparationScene {
   draggedOffsetY = 0;
   userData: any;
   mouse: any;
+  // activeScene: any;
 
   constructor(userData: any, mouse: any) {
     this.userData = userData;
     this.mouse = mouse;
+    // this.activeScene = activeScene;
     this.manually();
     document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
     document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
-    document.querySelector("[data-type='random']")?.addEventListener("click", () => this.startRandomGame());
+    // document.querySelector("[data-action='random']")?.addEventListener("click", () => {
+
+    // setTimeout(() => console.log(this.activeScene), 1000);
+    // });
   }
 
   // init() {
@@ -60,10 +66,6 @@ class PreparationScene {
       ship.startX = shipDatas[i].startX;
       ship.startY = shipDatas[i].startY;
     }
-  }
-
-  startRandomGame() {
-    document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true);
   }
 
   update() {

@@ -11,8 +11,8 @@ import {
 } from "./autorithForm";
 import headerFucntions from "./headerFunctions";
 
-export const baseUrl = "https://peachy-ink-production.up.railway.app";
-// export const baseUrl = "http://localhost:5000";
+// export const baseUrl = "https://peachy-ink-production.up.railway.app";
+export const baseUrl = "http://localhost:5000";
 
 const header = document.querySelector(".header") as HTMLDivElement;
 

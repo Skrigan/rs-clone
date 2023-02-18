@@ -25,6 +25,10 @@ class BattlefieldView extends Battlefield {
     const polygon = document.createElement("div");
     polygon.classList.add("battlefield__polygon");
 
+    if (!showShips) {
+      root.classList.add("none");
+    }
+
     Object.assign(this, { root, table, dock, polygon, showShips });
     root.append(table, dock, polygon);
 
