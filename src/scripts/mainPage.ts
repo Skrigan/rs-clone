@@ -151,7 +151,7 @@ const validateRegistrationForm = (event: Event) => {
   checkConfirmPassword(registrationForm);
   checkRegistrationInputLength(registrationForm, userData);
   isValidEmail(registrationForm);
-  submitInfo(event, "registration", userData, baseUrl, loginPage, header, userData, socket, gameId, Game);
+  submitInfo(event, "registration", userData, baseUrl, loginPage, header, userData, socket, gameId, Game, false);
 
   location.reload(); // TODO do better
 };
@@ -160,7 +160,7 @@ const validateLoginForm = (event: Event) => {
   event.preventDefault();
   clearErrors();
   checkLoginInputLength(loginForm, userData);
-  submitInfo(event, "login", userData, baseUrl, loginPage, header, userData, socket, gameId, Game);
+  submitInfo(event, "login", userData, baseUrl, loginPage, header, userData, socket, gameId, Game, true);
   console.log("username: ", userData.username);
 };
 
