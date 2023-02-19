@@ -55,11 +55,13 @@
     }
 
     &_row-3 {
-      width: 98px;
+      // width: 98px;
+      width: 97px;
     }
 
     &_row-4 {
-      width: 131px;
+      // width: 131px;
+      width: 128px;
     }
 
     &_column-1 {}
@@ -69,11 +71,13 @@
     }
 
     &_column-3 {
-      height: 98px;
+      // height: 98px;
+      height: 97px;
     }
 
     &_column-4 {
-      height: 131px;
+      // height: 131px;
+      height: 128px;
     }
   }
 }
@@ -136,8 +140,12 @@
 }
 
 .shot-killed {
-  margin: -3px;
-  border: 3px solid red;
+  // margin: -3px;
+  // border: 3px solid red;
+  // margin: -3px;
+    width: 31px;
+    outline: 3px solid red;
+    box-sizing: unset;
 }
 
 // [data-side="opponent"] .battlefield {

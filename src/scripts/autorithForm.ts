@@ -177,6 +177,7 @@ export const submitInfo = (
     //   };
     //   socket.send(JSON.stringify(payLoad));
     // }
+    userData.socket = socket;
     const game = new Game(userData);
     console.log(userData);
   }

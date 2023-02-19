@@ -58,7 +58,7 @@ class Battlefield {
         const cx = x + dx * i;
         const cy = y + dy * i;
 
-        const item = matrix[cx][cy];
+        const item = matrix[cy][cx];
         item.ship = ship;
       }
 
