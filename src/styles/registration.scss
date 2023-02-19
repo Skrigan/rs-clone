@@ -244,3 +244,21 @@
   opacity: 1;
   z-index: 10;
 }
+
+.no-user {
+  @extend .successful-registration;
+}
+
+.no-user.active {
+  opacity: 1;
+  z-index: 10;
+}
+
+.user-exists {
+  @extend .successful-registration;
+}
+
+.user-exists.active {
+  opacity: 1;
+  z-index: 10;
+}

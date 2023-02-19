@@ -1,5 +1,7 @@
 import { successfulRegistrationMessage } from "./successfulRegistration";
 import { incorrectPassword } from "./incorrectPassword";
+import { userIsNotFound } from "./userIsNotFound";
+import { userAlredyExists } from "./userAlredyExists";
 
 const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
 const formPage = document.querySelector(".form-page__wrapper") as HTMLDivElement;
@@ -123,18 +125,27 @@ export const createUser = async (
     body: JSON.stringify(form),
   });
   // console.log("result =", result);
-  if (!result.ok) {
-    return false;
-  }
+
   const data = await result.json();
+  console.log(data);
+  
   if (data.message === "Пользователь успешно зарегистрирован") {
     loginPage.click();
     successfulRegistrationMessage();
   }
   if (data.message === "Неверный пароль") {
-    console.log("s");
-    
     incorrectPassword();
+  }
+  if (data.message?.split(" ").slice(-2).join(" ") === "не найден") {
+    console.log("не найден");
+    userIsNotFound();
+  }
+  if (data.message === "Пользователь с таким уже существует") {
+    console.log("Пользователь уже существует");
+    userAlredyExists();
+  }
+  if (!result.ok) {
+    return false;
   }
   if (data.token) {
     pageSwitch(formPage, chatPage, header);
@@ -143,6 +154,7 @@ export const createUser = async (
     header?.classList.remove("none");
     return data;
   }
+
 };
 
 export const pageSwitch = (formPage: HTMLDivElement, chatPage: HTMLDivElement, header: HTMLDivElement) => {
