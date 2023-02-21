@@ -26,6 +26,15 @@ class Game {
       console.log("activeScene = ", this.activeScene);
       // this.startRandomGame();
     });
+    (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).addEventListener("click", () => {
+      this.userData.socket.emit("gaveup");
+      // document.querySelector(".game-status")!.textContent = "Вы сдались";
+      // this.activeScene = new PreparationScene(this.userData, this.mouse);
+      // this.userData.opponent.clear();
+      // this.userData.player.removeAllShots();
+      // this.userData.player.ships.forEach((ship: any) => (ship.killed = false));
+      // console.log("АКТИВКА: ", this.activeScene);
+    });
 
     this.activeScene = new PreparationScene(this.userData, this.mouse);
     this.activeScene.manually();

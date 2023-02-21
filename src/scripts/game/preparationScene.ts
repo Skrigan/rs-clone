@@ -70,7 +70,6 @@ class PreparationScene {
 
   update() {
     // Потенциально хотим начать тянуть корабль
-    console.log("left: ", this.mouse.x, "right", this.mouse.y);
     if (!this.draggedShip && this.mouse.left && !this.mouse.pLeft) {
       const ship = this.userData.player.ships.find((ship: any) => ship.isUnder(this.mouse));
 

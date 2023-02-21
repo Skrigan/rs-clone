@@ -90,13 +90,7 @@ class OnlineScene {
       if (this.startPlay) {
         // document.querySelector("[data-scene='preparation']")?.classList.add("none");
         this.userData.opponent.root.classList.remove("none");
-        const gaveUpBtn = document.querySelector("[data-action='gaveUp']") as HTMLButtonElement;
-        gaveUpBtn.addEventListener("click", () => {
-          this.userData.socket.emit("gaveup");
-          this.activeScene = new PreparationScene(this.userData, this.mouse);
-          console.log("АКТИВКА: ", this.activeScene);
-        });
-        gaveUpBtn.disabled = false;
+        (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = false;
         this.startPlay = false;
         console.log("firstTry");
       }
@@ -108,17 +102,28 @@ class OnlineScene {
     } else if (this.status === "loser") {
       gameStatusElement.textContent = "Вы проиграли";
       // console.log("Вы проиграли");
+    } else if (this.status === "ezwin") {
+      gameStatusElement.textContent = "Вы победили, противник сдался";
+    } else if (this.status === "gaveup") {
+      gameStatusElement.textContent = "Вы сдались";
     }
+  }
+
+  exitFromGame() {
+    //TODO: Дописать смену кнопки giveup на again !!!!!!!!!!!!!!!!!!!!
+    (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = true;
+    (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = true;
   }
 
 
 
   update() {
-
-    // const { mouse, opponent, player, socket } = this.app;
-
     const cells = this.userData.opponent.cells.flat();
     cells.forEach((x: any) => x.classList.remove("battlefield__item_active"));
+
+    // if(["loser", "winner"].includes(this.status)) {
+    //   document.querySelector(".game-status")!.textContent = "Вы победили, противник сдался";
+    // }
 
     //убрать!!!!!!!!!!!!!!!!!!
     // if (this.userData.player.loser) {
