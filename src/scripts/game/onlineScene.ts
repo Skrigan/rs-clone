@@ -98,21 +98,30 @@ class OnlineScene {
       // console.log(this.ownTurn ? "Ваш ход" : "Ход соперника");
     } else if (this.status === "winner") {
       gameStatusElement.textContent = "Вы победили";
+      this.addExitBtn();
       // console.log("Вы победили");
     } else if (this.status === "loser") {
       gameStatusElement.textContent = "Вы проиграли";
+      this.addExitBtn();
       // console.log("Вы проиграли");
     } else if (this.status === "ezwin") {
       gameStatusElement.textContent = "Вы победили, противник сдался";
+      this.addExitBtn();
     } else if (this.status === "gaveup") {
       gameStatusElement.textContent = "Вы сдались";
+      this.addExitBtn();
     }
   }
 
-  exitFromGame() {
+  addExitBtn() {
     //TODO: Дописать смену кнопки giveup на again !!!!!!!!!!!!!!!!!!!!
-    (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = true;
-    (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = true;
+    const gaveUpBtn = document.querySelector("[data-action='gaveUp']") as HTMLButtonElement;
+    gaveUpBtn.classList.add("none");
+    gaveUpBtn.disabled = true;
+
+    const againBtn = document.querySelector("[data-action='again']") as HTMLButtonElement;
+    againBtn.classList.remove("none");
+    againBtn.disabled = false;
   }
 
 
