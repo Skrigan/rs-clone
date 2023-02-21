@@ -1,6 +1,8 @@
 
 
 import ShotView from "./ShotView";
+import PreparationScene from "./preparationScene";
+
 import Utils from "./utils";
 const utils = new Utils;
 
@@ -10,16 +12,18 @@ class OnlineScene {
   mouse: any;
   status = "";
   ownTurn = false;
+  activeScene: any;
+  startPlay: any = true;
 
-  constructor(userData: any, mouse: any) {
+  constructor(userData: any, mouse: any, activeScene: any) {
     this.userData = userData;
     this.mouse = mouse;
+    this.activeScene = activeScene;
+    this.startRandomGame();
     // setTimeout(() => document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true), 1000);
     // console.log("click");
-    console.log("userData = ", this.userData);
+    // console.log("userData = ", this.userData);
     // setTimeout(() => {
-    document.querySelector("[data-scene='preparation']")?.classList.add("none");
-    userData.opponent.root.classList.remove("none");
     this.userData.socket.emit("shipSet", this.userData.player.ships.map((ship: any) => ({
       size: ship.size,
       direction: ship.direction,
@@ -30,32 +34,81 @@ class OnlineScene {
     this.userData.socket.on("statusChange", (status: any) => {
       console.log("(status change), STATUS: ", status);
       this.status = status;
-      // this.statusUpdate();
+      this.statusUpdate();
     });
     this.userData.socket.on("turnUpdate", (ownTurn: any) => {
       this.ownTurn = ownTurn;
-      // this.statusUpdate();
+      this.statusUpdate();
     });
     this.userData.socket.on("setShots", (ownShots: any, opponentShots: any) => {
       this.userData.player.removeAllShots();
 
-      for (const {x, y, variant} of ownShots) {
+      for (const { x, y, variant } of ownShots) {
         const shot = new ShotView(x, y, variant);
         this.userData.player.addShot(shot);
       }
 
       this.userData.opponent.removeAllShots();
 
-      for (const {x, y, variant} of opponentShots) {
+      for (const { x, y, variant } of opponentShots) {
         const shot = new ShotView(x, y, variant);
         this.userData.opponent.addShot(shot);
       }
-      console.log("afterShot: ", this.userData);
     });
-    // this.statusUpdate();
-
+    this.statusUpdate();
     // }, 2000);
     // document
+  }
+
+  startRandomGame() {
+    document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true);
+  }
+
+  changeAppActions() {
+    const appActions = document.querySelector(".app-actions") as HTMLElement;
+    appActions.classList.add("app-actions_online");
+    // console.log(appActions);
+    // appActions.querySelector("[data-scene='preparation']")?.classList.add("none");
+    appActions.querySelector("[data-type='random']")?.classList.add("none");
+    appActions.querySelector("[data-type='challenge']")?.classList.add("none");
+    appActions.querySelector("[data-type='takeChallenge']")?.classList.add("none");
+    appActions.querySelector("[data-action='manually']")?.classList.add("none");
+    appActions.querySelector("[data-action='randomize']")?.classList.add("none");
+    appActions.querySelector("[data-action='gaveUp']")?.classList.remove("none");
+    appActions.querySelector(".game-status")?.classList.remove("none");
+    document.querySelector(".chat-wrapper")?.classList.add("none");
+
+  }
+
+  statusUpdate() {
+    const gameStatusElement = document.querySelector(".game-status")!;
+    if (this.status === "randomFinding") {
+      this.changeAppActions();
+      gameStatusElement.textContent = "Поиск случайного соперника";
+      // console.log("Поиск случайного соперника");
+    } else if (this.status === "play") {
+      if (this.startPlay) {
+        // document.querySelector("[data-scene='preparation']")?.classList.add("none");
+        this.userData.opponent.root.classList.remove("none");
+        const gaveUpBtn = document.querySelector("[data-action='gaveUp']") as HTMLButtonElement;
+        gaveUpBtn.addEventListener("click", () => {
+          this.userData.socket.emit("gaveup");
+          this.activeScene = new PreparationScene(this.userData, this.mouse);
+          console.log("АКТИВКА: ", this.activeScene);
+        });
+        gaveUpBtn.disabled = false;
+        this.startPlay = false;
+        console.log("firstTry");
+      }
+      gameStatusElement.textContent = this.ownTurn ? "Ваш ход" : "Ход соперника";
+      // console.log(this.ownTurn ? "Ваш ход" : "Ход соперника");
+    } else if (this.status === "winner") {
+      gameStatusElement.textContent = "Вы победили";
+      // console.log("Вы победили");
+    } else if (this.status === "loser") {
+      gameStatusElement.textContent = "Вы проиграли";
+      // console.log("Вы проиграли");
+    }
   }
 
 
@@ -65,7 +118,29 @@ class OnlineScene {
     // const { mouse, opponent, player, socket } = this.app;
 
     const cells = this.userData.opponent.cells.flat();
-    cells.forEach((x: any) => x.classList.remove("battlefield-item__active"));
+    cells.forEach((x: any) => x.classList.remove("battlefield__item_active"));
+
+    //убрать!!!!!!!!!!!!!!!!!!
+    // if (this.userData.player.loser) {
+    //   return;
+    // }
+
+    if (this.userData.opponent.isUnder(this.mouse)) {
+      const cell = this.userData.opponent.cells
+        .flat()
+        .find((cell: any) => utils.isUnderPoint(this.mouse, cell));
+
+      if (cell) {
+        cell.classList.add("battlefield__item_active");
+
+        if (this.mouse.left && !this.mouse.pLeft) {
+          const x = parseInt(cell.dataset.x);
+          const y = parseInt(cell.dataset.y);
+
+          this.userData.socket.emit("addShot", x, y);
+        }
+      }
+    }
 
     // if (["loser", "winner"].includes(this.status)) {
     //   const sceneActionsBar = document.querySelector('[data-scene="online"]');
@@ -85,22 +160,7 @@ class OnlineScene {
     //   return;
     // }
 
-    if (this.userData.opponent.isUnder(this.mouse)) {
-      const cell = this.userData.opponent.cells
-        .flat()
-        .find((cell: any) => utils.isUnderPoint(this.mouse, cell));
 
-      if (cell) {
-        cell.classList.add("battlefield-item__active");
-
-        if (this.mouse.left && !this.mouse.pLeft) {
-          const x = parseInt(cell.dataset.x);
-          const y = parseInt(cell.dataset.y);
-
-          this.userData.socket.emit("addShot", x, y);
-        }
-      }
-    }
 
 
 

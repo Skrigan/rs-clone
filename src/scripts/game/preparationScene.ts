@@ -34,9 +34,9 @@ class PreparationScene {
     this.userData = userData;
     this.mouse = mouse;
     // this.activeScene = activeScene;
-    this.manually();
-    document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
-    document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
+    // this.manually();
+    // document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.manually());
+    // document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.start());
     // document.querySelector("[data-action='random']")?.addEventListener("click", () => {
 
     // setTimeout(() => console.log(this.activeScene), 1000);
@@ -70,6 +70,7 @@ class PreparationScene {
 
   update() {
     // Потенциально хотим начать тянуть корабль
+    console.log("left: ", this.mouse.x, "right", this.mouse.y);
     if (!this.draggedShip && this.mouse.left && !this.mouse.pLeft) {
       const ship = this.userData.player.ships.find((ship: any) => ship.isUnder(this.mouse));
 

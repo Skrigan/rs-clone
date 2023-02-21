@@ -21,20 +21,23 @@ class Game {
     document.querySelector("[data-side='player']")?.append(this.userData.player.root);
     document.querySelector("[data-side='opponent']")?.append(this.userData.opponent.root);
     document.querySelector("[data-type='random']")?.addEventListener("click", () => { 
-      this.activeScene = new OnlineScene(this.userData, this.mouse);
+      this.activeScene = new OnlineScene(this.userData, this.mouse, this.activeScene);
       // console.log("click");
       console.log("activeScene = ", this.activeScene);
-      this.startRandomGame();
+      // this.startRandomGame();
     });
 
     this.activeScene = new PreparationScene(this.userData, this.mouse);
+    this.activeScene.manually();
+    document.querySelector("[data-action='manually']")?.addEventListener("click", () => this.activeScene.manually());
+    document.querySelector("[data-action='randomize']")?.addEventListener("click", () => this.activeScene.start());
     requestAnimationFrame(() => this.tick());
     
   }
 
-  startRandomGame() {
-    document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true);
-  }
+  // startRandomGame() {
+  //   document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true);
+  // }
 
   tick() {
     requestAnimationFrame(() => this.tick());
