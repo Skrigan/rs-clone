@@ -1,4 +1,7 @@
 import { successfulRegistrationMessage } from "./successfulRegistration";
+import { incorrectPassword } from "./incorrectPassword";
+import { userIsNotFound } from "./userIsNotFound";
+import { userAlredyExists } from "./userAlredyExists";
 
 const chatPage = document.querySelector(".chap-page") as HTMLDivElement;
 const formPage = document.querySelector(".form-page__wrapper") as HTMLDivElement;
@@ -121,19 +124,37 @@ export const createUser = async (
 
     body: JSON.stringify(form),
   });
+  // console.log("result =", result);
+
   const data = await result.json();
+  console.log(data);
+  
   if (data.message === "Пользователь успешно зарегистрирован") {
     loginPage.click();
     successfulRegistrationMessage();
   }
+  if (data.message === "Неверный пароль") {
+    incorrectPassword();
+  }
+  if (data.message?.split(" ").slice(-2).join(" ") === "не найден") {
+    console.log("не найден");
+    userIsNotFound();
+  }
+  if (data.message === "Пользователь с таким уже существует") {
+    console.log("Пользователь уже существует");
+    userAlredyExists();
+  }
+  if (!result.ok) {
+    return false;
+  }
   if (data.token) {
     pageSwitch(formPage, chatPage, header);
-    data.message === "Неверный пароль" ? console.log("Неверный пароль") : false;
     const usernameSpan = document.querySelector(".username") as HTMLSpanElement;
     usernameSpan.innerText = localStorage.getItem("isAutorith")!;
     header?.classList.remove("none");
     return data;
   }
+
 };
 
 export const pageSwitch = (formPage: HTMLDivElement, chatPage: HTMLDivElement, header: HTMLDivElement) => {
@@ -142,11 +163,11 @@ export const pageSwitch = (formPage: HTMLDivElement, chatPage: HTMLDivElement, h
   header?.classList.toggle("none");
 };
 
-export const submitInfo = (
+export const submitInfo = async (
   event: Event,
   authorizationType: string,
   form: { username: string; password: string },
-  baseUrl: string, loginPage: HTMLDivElement, header: HTMLDivElement, userData: any, socket: any, gameId: string, Game: any
+  baseUrl: string, loginPage: HTMLDivElement, header: HTMLDivElement, userData: any, socket: any, gameId: string, Game: any, isLogin: boolean
 ) => {
   if (authorizationType === "login") {
     localStorage.setItem("isAutorith", `${form.username}`);
@@ -155,31 +176,32 @@ export const submitInfo = (
   const target = event.target as HTMLFormElement;
   const errors = target?.querySelectorAll(".error");
 
-  if (!errors.length) {
-    createUser(authorizationType, form, baseUrl, loginPage, header);
+  if (!errors.length && await createUser(authorizationType, form, baseUrl, loginPage, header)) {
     target.reset();
-    const payLoad = {
-      method: "autorize",
-      // username: userName,
-      username: userData.username,
-    };
-    socket.send(JSON.stringify(payLoad));
-    const hash = window.location.hash;
-    // if (hash) {
-    //   const arr = hash.split("=");
-    //   const index = arr.indexOf("#gameId");
-    //   gameId = arr[index + 1];
-    //   const payLoad = {
-    //     method: "join",
-    //     // username: userName,
-    //     username: userData.username,
-    //     gameId: gameId,
-    //   };
-    //   socket.send(JSON.stringify(payLoad));
-    // }
-    userData.socket = socket;
-    const game = new Game(userData);
-    console.log(userData);
+    if (isLogin) {
+      const payLoad = {
+        method: "autorize",
+        // username: userName,
+        username: userData.username,
+      };
+      socket.send(JSON.stringify(payLoad));
+      const hash = window.location.hash;
+      if (hash) {
+        const arr = hash.split("=");
+        const index = arr.indexOf("#gameId");
+        gameId = arr[index + 1];
+        const payLoad = {
+          method: "join",
+          // username: userName,
+          username: userData.username,
+          gameId: gameId,
+        };
+        socket.send(JSON.stringify(payLoad));
+      }
+      const game = new Game(userData);
+      console.log(userData);
+    }
+
   }
 };
 

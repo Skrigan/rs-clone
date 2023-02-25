@@ -76,5 +76,3 @@ function changeLanguage() {
 
   messageInput.placeholder = engLang ? "Add a message" : "Добавить сообщение";
 }
-
-
