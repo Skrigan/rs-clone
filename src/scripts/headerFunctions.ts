@@ -26,7 +26,7 @@ const headerFucntions = () => {
 
   const user = document.querySelector(".user");
   user?.addEventListener("click", () =>
-    user.classList.add("user-profile--open")
+    user.classList.toggle("user-profile--open")
   );
 
   const exitBtn = document.querySelector(".exit-btn");

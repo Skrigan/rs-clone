@@ -1,5 +1,3 @@
-
-
 import ShotView from "./ShotView";
 import PreparationScene from "./preparationScene";
 

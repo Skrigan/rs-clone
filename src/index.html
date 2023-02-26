@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
-
 <body class="body">
   <header class="header">
     <div class="header__wrapper">
@@ -49,129 +48,132 @@
       </div>
     </div>
   </header>
-  <div class="chap-page none">
-    <div class="game">
-      <div data-side="player"></div>
-      <div class="app-actions" data-scene="preparation">
-        <!-- <button class="app-action" data-computer="simple" disabled>
-          Играть против слабока
-        </button>
-        <button class="app-action" data-computer="middle" disabled>
-          Играть против среднего
-        </button>
-        <button class="app-action" data-computer="hard" disabled>
-          Играть против сильного
-        </button> -->
-        <div class="game-status none"></div>
-        <button class="app-action" data-type="random" disabled>
-          Играть против случайного игрока
-        </button>
-        <button class="app-action" data-type="challenge" disabled>
-          Вызвать на бой
-        </button>
-        <button class="app-action" data-type="takeChallenge" disabled>
-          Принять вызов
-        </button>
-        <button class="app-action" data-action="manually">
-          Расставить корабли вручную
-        </button>
-        <button class="app-action" data-action="randomize">
-          Расставить корабли случайно
-        </button>
-        <button class="app-action none" data-action="gaveUp">
-          Сдаться
-        </button>
-        <button class="app-action none" data-action="again" disabled>
-          Завершить игру
-        </button>
-      </div>
-      <div data-side="opponent">
-
-        <!-- <div class="create-game" style="display: none;"> -->
-          <!-- <div class="create-game__options none">
-            <p>Cкопируйте ссылку и ожидайте:</p>
-            <input class="create-game__input" readonly type="text" value="link/link/link" onFocus="this.select()">
-          </div>
-          <button class="button create-game__button">Играть</button> -->
-        <!-- </div> -->
-      </div>
-    </div>
-    <div class="chat-wrapper">
-      <div class="chat">
-        <div class="lang_welcome chat__welcome-message">
-          Начните свое общение прямо сейчас
+  <div class="wrapper">
+    <div class="chap-page none">
+      <div class="game">
+        <div data-side="player"></div>
+        <div class="app-actions" data-scene="preparation">
+          <!-- <button class="app-action" data-computer="simple" disabled>
+            Играть против слабока
+          </button>
+          <button class="app-action" data-computer="middle" disabled>
+            Играть против среднего
+          </button>
+          <button class="app-action" data-computer="hard" disabled>
+            Играть против сильного
+          </button> -->
+          <div class="game-status none"></div>
+          <button class="app-action" data-type="random" disabled>
+            Играть против случайного игрока
+          </button>
+          <button class="app-action" data-type="challenge" disabled>
+            Вызвать на бой
+          </button>
+          <button class="app-action" data-type="takeChallenge" disabled>
+            Принять вызов
+          </button>
+          <button class="app-action" data-action="manually">
+            Расставить корабли вручную
+          </button>
+          <button class="app-action" data-action="randomize">
+            Расставить корабли случайно
+          </button>
+          <button class="app-action none" data-action="gaveUp">
+            Сдаться
+          </button>
+          <button class="app-action none" data-action="again" disabled>
+            Завершить игру
+          </button>
+        </div>
+        <div data-side="opponent">
+  
+          <!-- <div class="create-game" style="display: none;"> -->
+            <!-- <div class="create-game__options none">
+              <p>Cкопируйте ссылку и ожидайте:</p>
+              <input class="create-game__input" readonly type="text" value="link/link/link" onFocus="this.select()">
+            </div>
+            <button class="button create-game__button">Играть</button> -->
+          <!-- </div> -->
         </div>
       </div>
-      <div id="messageForm" class="messageForm">
-        <input placeholder="Добавить сообщение" type="text" name="message" id="message" class="message">
-        <button class="submitBtn button">
-          <svg style="width: 70%; height: 200%; position: relative;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 414.287 414.287" xml:space="preserve">
-            <g>
-              <path d="M412.398,202.993L288.535,95.289c-1.502-1.305-3.591-1.699-5.463-1.027c-1.873,0.67-3.237,2.3-3.568,4.261l-8.938,52.887   H40.554c-2.684,0-4.976,1.938-5.423,4.583l-3.054,18.067c-0.27,1.597,0.177,3.23,1.223,4.467c1.045,1.237,2.581,1.95,4.2,1.95   h103.982l-2.208,15H8.134c-2.684,0-4.976,1.938-5.423,4.583l-2.634,15.584c-0.27,1.597,0.177,3.229,1.223,4.467   c1.045,1.236,2.581,1.949,4.2,1.949h159.196l-2.206,15H63.505c-2.684,0-4.976,1.938-5.423,4.583l-2.505,14.817   c-0.271,1.597,0.177,3.229,1.222,4.467c1.046,1.237,2.582,1.95,4.201,1.95h190.721l-8.628,51.053   c-0.366,2.168,0.593,4.346,2.439,5.538c0.908,0.586,1.945,0.879,2.982,0.879c1.07,0,2.141-0.312,3.067-0.935l160.272-107.704   c1.421-0.955,2.316-2.518,2.422-4.225C414.385,205.776,413.689,204.116,412.398,202.993z"/>
-            </g>
-            </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-page__wrapper">
-    <div class="sign-in__form">
-      <div class="form-container">
-        <div class="form-header">
-          <div class="login-title active">Login</div>
-          <div class="registration-title">Registration</div>
+      <div class="chat-wrapper">
+        <div class="chat">
+          <div class="lang_welcome chat__welcome-message">
+            Начните свое общение прямо сейчас
+          </div>
         </div>
-        <form class="login-form active">
-          <div class="username">
-            <label class="username-label" for="username">Username</label>
-            <input class="username-input" type="text" name="username" placeholder="Username">
-            <div class="message-error">Something is whong</div>
-          </div>
-          <div class="password">
-            <label class="password-label" for="password">Password</label>
-            <input class="password-input" type="Password" name="password" placeholder="Password">
-            <div class="message-error">Something is whong</div>
-            <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
-          </div>
-          <button class="sign-in__button button" type="submit">Sign in</button>
-        </form>
-        <form class="registration-form">
-          <div class="username">
-            <label class="username-label" for="username">Username</label>
-            <input class="username-input" type="text" name="username" placeholder="Username">
-            <div class="message-error">Something is whong</div>
-          </div>
-          <div class="email">
-            <label class="email-address__label" for="email">Email Address </label>
-            <input class="email-address__input" type="text" name="email" placeholder="Email (optional)">
-            <div class="message-error">Something is whong</div>
-          </div>
-          <div class="password">
-            <label class="password-label" for="password">Password</label>
-            <input class="password-input first-password" type="Password" name="password" placeholder="Password">
-            <div class="message-error">Something is whong</div>
-            <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
-          </div>
-          <div class="password">
-            <label class="password-label" for="password">Confirm Password</label>
-            <input class="password-input confirm-password" type="Password" name="password"
-              placeholder="Confirm Password">
-            <div class="message-error">Something is whong</div>
-            <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
-          </div>
-          <button class="registration-button button" type="submit">Registration</button>
-        </form>
+        <div id="messageForm" class="messageForm">
+          <input placeholder="Добавить сообщение" type="text" name="message" id="message" class="message">
+          <button class="submitBtn button">
+            <svg style="width: 70%; height: 200%; position: relative;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffff" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 414.287 414.287" xml:space="preserve">
+              <g>
+                <path d="M412.398,202.993L288.535,95.289c-1.502-1.305-3.591-1.699-5.463-1.027c-1.873,0.67-3.237,2.3-3.568,4.261l-8.938,52.887   H40.554c-2.684,0-4.976,1.938-5.423,4.583l-3.054,18.067c-0.27,1.597,0.177,3.23,1.223,4.467c1.045,1.237,2.581,1.95,4.2,1.95   h103.982l-2.208,15H8.134c-2.684,0-4.976,1.938-5.423,4.583l-2.634,15.584c-0.27,1.597,0.177,3.229,1.223,4.467   c1.045,1.236,2.581,1.949,4.2,1.949h159.196l-2.206,15H63.505c-2.684,0-4.976,1.938-5.423,4.583l-2.505,14.817   c-0.271,1.597,0.177,3.229,1.222,4.467c1.046,1.237,2.582,1.95,4.201,1.95h190.721l-8.628,51.053   c-0.366,2.168,0.593,4.346,2.439,5.538c0.908,0.586,1.945,0.879,2.982,0.879c1.07,0,2.141-0.312,3.067-0.935l160.272-107.704   c1.421-0.955,2.316-2.518,2.422-4.225C414.385,205.776,413.689,204.116,412.398,202.993z"/>
+              </g>
+              </svg>
+          </button>
+        </div>
       </div>
     </div>
+  
+    <div class="form-page__wrapper">
+      <div class="sign-in__form">
+        <div class="form-container">
+          <div class="form-header">
+            <div class="login-title active">Login</div>
+            <div class="registration-title">Registration</div>
+          </div>
+          <form class="login-form active">
+            <div class="username">
+              <label class="username-label" for="username">Username</label>
+              <input class="username-input" type="text" name="username" placeholder="Username">
+              <div class="message-error">Something is whong</div>
+            </div>
+            <div class="password">
+              <label class="password-label" for="password">Password</label>
+              <input class="password-input" type="Password" name="password" placeholder="Password">
+              <div class="message-error">Something is whong</div>
+              <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
+            </div>
+            <button class="sign-in__button button" type="submit">Sign in</button>
+          </form>
+          <form class="registration-form">
+            <div class="username">
+              <label class="username-label" for="username">Username</label>
+              <input class="username-input" type="text" name="username" placeholder="Username">
+              <div class="message-error">Something is whong</div>
+            </div>
+            <div class="email">
+              <label class="email-address__label" for="email">Email Address </label>
+              <input class="email-address__input" type="text" name="email" placeholder="Email (optional)">
+              <div class="message-error">Something is whong</div>
+            </div>
+            <div class="password">
+              <label class="password-label" for="password">Password</label>
+              <input class="password-input first-password" type="Password" name="password" placeholder="Password">
+              <div class="message-error">Something is whong</div>
+              <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
+            </div>
+            <div class="password">
+              <label class="password-label" for="password">Confirm Password</label>
+              <input class="password-input confirm-password" type="Password" name="password"
+                placeholder="Confirm Password">
+              <div class="message-error">Something is whong</div>
+              <div class="password-control"><img src="assets/images/password-on.svg" alt=""></div>
+            </div>
+            <button class="registration-button button" type="submit">Registration</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="successful-registration"><span>Success</span> 
+      <svg style="width: 13%; height: 13%;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="96px" height="96px" viewBox="0 0 96 96" enable-background="new 0 0 96 96" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" fill="#6BBE66" d="M48,0c26.51,0,48,21.49,48,48S74.51,96,48,96S0,74.51,0,48 S21.49,0,48,0L48,0z M26.764,49.277c0.644-3.734,4.906-5.813,8.269-3.79c0.305,0.182,0.596,0.398,0.867,0.646l0.026,0.025 c1.509,1.446,3.2,2.951,4.876,4.443l1.438,1.291l17.063-17.898c1.019-1.067,1.764-1.757,3.293-2.101 c5.235-1.155,8.916,5.244,5.206,9.155L46.536,63.366c-2.003,2.137-5.583,2.332-7.736,0.291c-1.234-1.146-2.576-2.312-3.933-3.489 c-2.35-2.042-4.747-4.125-6.701-6.187C26.993,52.809,26.487,50.89,26.764,49.277L26.764,49.277z"/></g></svg>
+    </div>
+    <div class="incorrect-password"><span>incorrect Password</span> </div>
+    <div class="no-user"><span>user is not found</span> </div>
+    <div class="user-exists"><span>User already exists</span> </div>
+    <!-- <a href="/ggg" onclick="route()">fdsdsf,df;'svd;,sdv'd</a> -->
+
   </div>
-  <div class="successful-registration"><span>Success</span> 
-    <svg style="width: 13%; height: 13%;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="96px" height="96px" viewBox="0 0 96 96" enable-background="new 0 0 96 96" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" fill="#6BBE66" d="M48,0c26.51,0,48,21.49,48,48S74.51,96,48,96S0,74.51,0,48 S21.49,0,48,0L48,0z M26.764,49.277c0.644-3.734,4.906-5.813,8.269-3.79c0.305,0.182,0.596,0.398,0.867,0.646l0.026,0.025 c1.509,1.446,3.2,2.951,4.876,4.443l1.438,1.291l17.063-17.898c1.019-1.067,1.764-1.757,3.293-2.101 c5.235-1.155,8.916,5.244,5.206,9.155L46.536,63.366c-2.003,2.137-5.583,2.332-7.736,0.291c-1.234-1.146-2.576-2.312-3.933-3.489 c-2.35-2.042-4.747-4.125-6.701-6.187C26.993,52.809,26.487,50.89,26.764,49.277L26.764,49.277z"/></g></svg>
-  </div>
-  <div class="incorrect-password"><span>incorrect Password</span> </div>
-  <div class="no-user"><span>user is not found</span> </div>
-  <div class="user-exists"><span>User already exists</span> </div>
-  <!-- <a href="/ggg" onclick="route()">fdsdsf,df;'svd;,sdv'd</a> -->
 </body>
 
 </html>

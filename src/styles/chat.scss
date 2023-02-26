@@ -9,10 +9,10 @@
 
 .chat-wrapper {
   width: 40%;
-  height: 83vh;
+  height: 83%;
   flex-direction: column;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
 }
 .submitBtn {
   width: 100px;
@@ -20,11 +20,15 @@
   font-size: 30px;
 }
 .chat {
+  border-left: 1px solid gray;
+  height: 650px;
+  max-height: 650px;
+  // max-height: 110vh;
   padding: 0 10px;
-  margin: 30px 0 0 0;
+  // margin: 30px 0 0 0;
   font-size: 30px;
-  width: 100%;
-  margin: 0 auto;
+  width: 500px;
+  margin: 40px auto 0 auto;
   max-height: 68vh;
   overflow-y: scroll;
   display: flex;
@@ -124,3 +128,4 @@
 .submitBtn.button {
   margin: 0;
 }
+

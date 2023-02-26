@@ -31,6 +31,35 @@ const langObj: any = {
     "Russian": "Начните свое общение прямо сейчас",
     "English": "Start your conversation right now"
   },
+  "random": {
+    "Russian": "Играть против случайного противника",
+    "English": "Play againgst a random player"
+  },
+  "callToFight": {
+    "Russian": "Вызвать на бой",
+    "English": "Call to fight"
+  },
+  "acceptFight": {
+    "Russian": "Принять вызов",
+    "English": "Accept a chellange"
+  },
+  "placeMyself": {
+    "Russian": "Расставить вручную",
+    "English": "Arrange by hand"
+  },
+  "placeRandom": {
+    "Russian": "Расставить случайно",
+    "English": "Arrage randomly"
+  },
+  "giveUp": {
+    "Russian": "Сдаться",
+    "English": "Give up"
+  },
+  "endGame": {
+    "Russian": "Закончить игру",
+    "English": "End the game"
+  },
+  
 };
 
 // const allLangs = ["English", "Russian"];
@@ -54,6 +83,8 @@ function changeStorage(lang: HTMLLIElement) {
 }
 
 function changeLanguage() {
+  setBtnsClasses();
+
   if(!localStorage.getItem("currentLang")) {
     localStorage.setItem("currentLang", "English");
   }
@@ -67,7 +98,6 @@ function changeLanguage() {
       textsToTranslate.innerText = langObj[text][currentLang!];
     }
 
-    // textsToTranslate.innerText = langObj[text][currentLang!];
   }
 
   const messageInput = document.querySelector(".message") as HTMLInputElement;
@@ -75,4 +105,23 @@ function changeLanguage() {
   const engLang = currentLang === "English";
 
   messageInput.placeholder = engLang ? "Add a message" : "Добавить сообщение";
+
+}
+
+function setBtnsClasses() {
+  const appButtons = document.querySelectorAll(".app-action");
+
+  appButtons[0].classList.add("random", "lang_random");
+
+  appButtons[1].classList.add("callToFight", "lang_callToFight");
+
+  appButtons[2].classList.add("acceptFight", "lang_acceptFight");
+
+  appButtons[3].classList.add("placeMyself", "lang_placeMyself");
+
+  appButtons[4].classList.add("placeRandom", "lang_placeRandom");
+
+  appButtons[5].classList.add("giveUp", "lang_giveUp");
+
+  appButtons[5].classList.add("endGame", "lang_engGame");  
 }
