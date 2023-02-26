@@ -14,6 +14,7 @@ class OnlineScene {
   ownTurn = false;
   activeScene: any;
   startPlay: any = true;
+  isRandom: any;
 
   constructor(userData: any, mouse: any, activeScene: any) {
     this.userData = userData;
@@ -30,7 +31,12 @@ class OnlineScene {
       x: ship.x,
       y: ship.y,
     })));
-    this.userData.socket.emit("findRandomOpponent");
+    this.userData.socket.on("challengeOpponent", (key: any) => {
+      console.log(key);
+      // history.pushState(null, null, `/${key}`);
+      window.location.hash = key;
+      alert("Первый, кто перейдёт по текущей ссылке, попадёт на бой с вами");
+    });
     this.userData.socket.on("statusChange", (status: any) => {
       console.log("(status change), STATUS: ", status);
       this.status = status;
@@ -89,6 +95,7 @@ class OnlineScene {
     } else if (this.status === "play") {
       if (this.startPlay) {
         // document.querySelector("[data-scene='preparation']")?.classList.add("none");
+        document.querySelector(".chap-page")?.classList.add("chap-page__active");
         this.userData.opponent.root.classList.remove("none");
         (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = false;
         this.startPlay = false;
@@ -110,11 +117,17 @@ class OnlineScene {
     } else if (this.status === "gaveup") {
       gameStatusElement.textContent = "Вы сдались";
       this.addExitBtn();
+    } else if (this.status === "waiting") {
+      this.changeAppActions();
+      gameStatusElement.textContent = "Ожидание соперника";
     }
   }
 
   addExitBtn() {
     //TODO: Дописать смену кнопки giveup на again !!!!!!!!!!!!!!!!!!!!
+    // window.location.href.split("#")[0];
+    history.pushState("", document.title, window.location.pathname);
+
     const gaveUpBtn = document.querySelector("[data-action='gaveUp']") as HTMLButtonElement;
     gaveUpBtn.classList.add("none");
     gaveUpBtn.disabled = true;

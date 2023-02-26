@@ -122,7 +122,7 @@ const sendMessage = (event: Event) => {
 };
 const sendBtn = document.querySelector(".submitBtn") as HTMLButtonElement;
 const body = document.querySelector("body");
-sendBtn?.addEventListener("click", sendMessage);
+sendBtn.onclick = sendMessage;
 body!.addEventListener("keydown", (event) => {
   if (event.keyCode === 13) {
     sendBtn.click();
