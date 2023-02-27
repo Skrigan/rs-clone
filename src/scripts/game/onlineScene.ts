@@ -19,6 +19,7 @@ class OnlineScene {
     this.mouse = mouse;
     this.activeScene = activeScene;
     this.startRandomGame();
+    //adsadsas
     // setTimeout(() => document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true), 1000);
     // console.log("click");
     // console.log("userData = ", this.userData);
