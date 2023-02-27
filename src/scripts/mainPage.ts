@@ -81,7 +81,6 @@ socket.on("message", (message) => {
   const responce = JSON.parse(message);
   switch (responce.method) {
   case "winStat": {
-    // console.log(responce.topUsers);
     const topList = document.querySelector(".leaderboard__content") as HTMLElement;
     responce.topUsers.forEach((item: any, index: any) => {
       topList.children[index].innerHTML = `${item[0]} : ${item[1]}`;

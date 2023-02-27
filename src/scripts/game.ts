@@ -22,7 +22,6 @@ class Game {
     document.querySelector("[data-side='opponent']")?.append(this.userData.opponent.root);
     document.querySelector("[data-type='random']")?.addEventListener("click", () => {
       this.activeScene = new OnlineScene(this.userData, this.mouse, this.activeScene);
-      console.log("activeScene = ", this.activeScene);
       this.userData.socket.emit("findRandomOpponent");
     });
     document.querySelector("[data-type='challenge']")?.addEventListener("click", () => {
@@ -37,7 +36,6 @@ class Game {
       this.userData.player.removeAllShots();
       this.userData.player.ships.forEach((ship: any) => (ship.killed = false));
       this.activeScene = new PreparationScene(this.userData, this.mouse);
-      console.log("АКТИВКА: ", this.activeScene);
       document.querySelector(".game-status")!.textContent = "";
 
 
@@ -82,7 +80,6 @@ class Game {
       }
     });
     requestAnimationFrame(() => this.tick());
-    // console.log("hash: ", window.location.hash);
 
   }
 
@@ -92,7 +89,6 @@ class Game {
 
   tick() {
     requestAnimationFrame(() => this.tick());
-    // console.log("aaa");
     if (this.activeScene) {
       this.activeScene.update();
     }

@@ -19,11 +19,6 @@ class OnlineScene {
     this.mouse = mouse;
     this.activeScene = activeScene;
     this.startRandomGame();
-    //adsadsas
-    // setTimeout(() => document.querySelectorAll(".app-action").forEach((button: any) => button.disabled = true), 1000);
-    // console.log("click");
-    // console.log("userData = ", this.userData);
-    // setTimeout(() => {
     this.userData.socket.emit("shipSet", this.userData.player.ships.map((ship: any) => ({
       size: ship.size,
       direction: ship.direction,
@@ -31,13 +26,11 @@ class OnlineScene {
       y: ship.y,
     })));
     this.userData.socket.on("challengeOpponent", (key: any) => {
-      console.log(key);
       // history.pushState(null, null, `/${key}`);
       window.location.hash = key;
       alert("Первый, кто перейдёт по текущей ссылке, попадёт на бой с вами");
     });
     this.userData.socket.on("statusChange", (status: any) => {
-      console.log("(status change), STATUS: ", status);
       this.status = status;
       this.statusUpdate();
     });
@@ -72,7 +65,6 @@ class OnlineScene {
   changeAppActions() {
     const appActions = document.querySelector(".app-actions") as HTMLElement;
     appActions.classList.add("app-actions_online");
-    // console.log(appActions);
     // appActions.querySelector("[data-scene='preparation']")?.classList.add("none");
     appActions.querySelector("[data-type='random']")?.classList.add("none");
     appActions.querySelector("[data-type='challenge']")?.classList.add("none");
@@ -90,7 +82,6 @@ class OnlineScene {
     if (this.status === "randomFinding") {
       this.changeAppActions();
       gameStatusElement.textContent = "Поиск случайного соперника";
-      // console.log("Поиск случайного соперника");
     } else if (this.status === "play") {
       if (this.startPlay) {
         // document.querySelector("[data-scene='preparation']")?.classList.add("none");
@@ -98,10 +89,8 @@ class OnlineScene {
         this.userData.opponent.root.classList.remove("none");
         (document.querySelector("[data-action='gaveUp']") as HTMLButtonElement).disabled = false;
         this.startPlay = false;
-        console.log("firstTry");
       }
       gameStatusElement.textContent = this.ownTurn ? "Ваш ход" : "Ход соперника";
-      // console.log(this.ownTurn ? "Ваш ход" : "Ход соперника");
     } else if (this.status === "winner") {
       gameStatusElement.textContent = "Вы победили";
       // this.userData.socket.emit("winStat", )
@@ -111,11 +100,9 @@ class OnlineScene {
 
 
       this.addExitBtn();
-      // console.log("Вы победили");
     } else if (this.status === "loser") {
       gameStatusElement.textContent = "Вы проиграли";
       this.addExitBtn();
-      // console.log("Вы проиграли");
     } else if (this.status === "ezwin") {
       gameStatusElement.textContent = "Вы победили, противник сдался";
       this.addWinStat();

@@ -17,7 +17,6 @@ const settings = document.querySelector(".settings");
 const headerFucntions = () => {
   settings?.addEventListener("click", (e) => {
     const currentTarget = e.currentTarget as HTMLElement;
-    console.log(currentTarget.lastElementChild);
 
     if (!e.composedPath().includes(document.querySelector(".settings__content")!)) {
       settings!.classList.toggle("settings-open");

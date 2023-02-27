@@ -1,5 +1,4 @@
 export const successfulRegistrationMessage = () => {
-  console.log("successful");
   setTimeout(messageTime, 1000);
 
 

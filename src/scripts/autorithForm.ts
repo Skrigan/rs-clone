@@ -124,10 +124,9 @@ export const createUser = async (
 
     body: JSON.stringify(form),
   });
-  // console.log("result =", result);
+
 
   const data = await result.json();
-  console.log(data);
   
   if (data.message === "Пользователь успешно зарегистрирован") {
     loginPage.click();
@@ -185,22 +184,8 @@ export const submitInfo = async (
         username: userData.username,
       };
       socket.send(JSON.stringify(payLoad));
-      // const hash = window.location.hash;
-      // if (hash) {
-      //   const arr = hash.split("=");
-      //   const index = arr.indexOf("#gameId");
-      //   gameId = arr[index + 1];
-      //   const payLoad = {
-      //     method: "join",
-      //     // username: userName,
-      //     username: userData.username,
-      //     gameId: gameId,
-      //   };
-      //   socket.send(JSON.stringify(payLoad));
-      // }
       userData.socket = socket;
       const game = new Game(userData);
-      console.log(userData);
     }
 
   }
