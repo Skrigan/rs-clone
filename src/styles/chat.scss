@@ -1,0 +1,136 @@
+@import "./color.css";
+
+.chap-page {
+  display: flex;
+
+  gap: 20px;
+  padding: 70px 20px;
+  padding-bottom: 0;
+  &__active {
+      align-items: center;
+      flex-direction: column;
+  }
+}
+
+.chat-wrapper {
+  width: 40%;
+  height: 83%;
+  flex-direction: column;
+  display: flex;
+  // justify-content: space-between;
+}
+.submitBtn {
+  width: 100px;
+  height: 50px;
+  font-size: 30px;
+}
+.chat {
+  border-left: 1px solid gray;
+  height: 650px;
+  max-height: 650px;
+  // max-height: 110vh;
+  padding: 0 10px;
+  // margin: 30px 0 0 0;
+  font-size: 30px;
+  width: 500px;
+  margin: 40px auto 0 auto;
+  max-height: 68vh;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+    &::-webkit-scrollbar {
+    width: 7px;
+    background: var(--main-bg-color);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--line-color);
+    border-radius: 9em;
+  }
+
+}
+
+.chat__welcome-message {
+  color: #4f4e4e;
+  font-size: 15px;
+  margin: 0 auto;
+}
+
+.name {
+  padding: 10px;
+  font-size: 30px;
+  border: 1px solid blue;
+  width: 150px;
+  height: 50px;
+}
+.message {
+  padding: 10px;
+  font-size: 30px;
+  border: 1px solid blue;
+  width: 400px;
+  height: 50px;
+}
+.messageForm {
+  width: 100%;
+  margin: 30px auto 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chat-message {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  word-wrap: break-word;
+}
+
+.chat-message__username {
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 16px;
+  font-family: Roboto, sans-serif;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+
+}
+
+.chat-message__content {
+  font-size: 18px;
+}
+
+.chat-message__time {
+  color: #999;
+  font-size: 14px;
+  font-family: Roboto, sans-serif;
+}
+
+#name {
+  width: 100%;
+  color: #333333;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 10px 16px;
+  border: 1px solid #BDBDBD;
+}
+
+#message {
+  width: 100%;
+  color: #333333;
+  font-size: 20px;
+  line-height: 19px;
+  padding: 10px 16px;
+  border: none;
+  background: var(--input-color);
+  border-bottom: 1px solid #BDBDBD;
+}
+
+.submitBtn.button {
+  margin: 0;
+}
+

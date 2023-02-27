@@ -1,0 +1,19 @@
+.body {
+    --header-bg-color: #1b5fbd;
+    --hover-color: #18c6d2;
+    --main-bg-color: #E5E5E5;
+    --line-color: #30363d;
+    --text-color: #30363d;
+    --btn-color: #ffffff;
+    --input-color: #E5E5E5;
+}
+
+.body.dark {
+    --header-bg-color: #161b22;
+    --main-bg-color: #0d1117;
+    --hover-color: #898c90;
+    --line-color: #30363d;
+    --text-color: #30363d;
+    --btn-color: #c0c7cd;
+    --input-color: #c9d1d9;
+}
