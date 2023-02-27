@@ -104,6 +104,12 @@ class OnlineScene {
       // console.log(this.ownTurn ? "Ваш ход" : "Ход соперника");
     } else if (this.status === "winner") {
       gameStatusElement.textContent = "Вы победили";
+      // this.userData.socket.emit("winStat", )
+      this.addWinStat();
+
+
+
+
       this.addExitBtn();
       // console.log("Вы победили");
     } else if (this.status === "loser") {
@@ -112,6 +118,7 @@ class OnlineScene {
       // console.log("Вы проиграли");
     } else if (this.status === "ezwin") {
       gameStatusElement.textContent = "Вы победили, противник сдался";
+      this.addWinStat();
       this.addExitBtn();
     } else if (this.status === "gaveup") {
       gameStatusElement.textContent = "Вы сдались";
@@ -120,6 +127,13 @@ class OnlineScene {
       this.changeAppActions();
       gameStatusElement.textContent = "Ожидание соперника";
     }
+  }
+  addWinStat() {
+    const payLoad = {
+      method: "winStat",
+      username: this.userData.username,
+    };
+    this.userData.socket.send(JSON.stringify(payLoad));
   }
 
   addExitBtn() {
