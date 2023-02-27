@@ -154,7 +154,7 @@ const validateRegistrationForm = (event: Event) => {
   isValidEmail(registrationForm);
   submitInfo(event, "registration", userData, baseUrl, loginPage, header, userData, socket, gameId, Game, false);
   setTimeout(location.reload ,5000);
-  location.reload(); // TODO do better
+
 };
 
 const validateLoginForm = (event: Event) => {
