@@ -87,6 +87,7 @@ socket.on("message", (message) => {
       topList.children[index].innerHTML = `${item[0]} : ${item[1]}`;
     });
     // for (let i = 0; i < )
+    //dasdsaasd
     break;
   }
   case "create": {
