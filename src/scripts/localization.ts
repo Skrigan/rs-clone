@@ -62,8 +62,6 @@ const langObj: any = {
   
 };
 
-// const allLangs = ["English", "Russian"];
-
 const languages = document.querySelectorAll(".language_variant");
 
 changeLanguage();
