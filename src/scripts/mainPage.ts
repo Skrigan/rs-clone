@@ -80,10 +80,19 @@ const chat = document.querySelector(".chat");
 socket.on("message", (message) => {
   const responce = JSON.parse(message);
   switch (responce.method) {
+  case "winStat": {
+    // console.log(responce.topUsers);
+    const topList = document.querySelector(".leaderboard__content") as HTMLElement;
+    responce.topUsers.forEach((item: any, index: any) => {
+      topList.children[index].innerHTML = `${item[0]} : ${item[1]}`;
+    });
+    // for (let i = 0; i < )
+    break;
+  }
   case "create": {
     gameId = responce.gameId;
     (
-        document.querySelector(".create-game__input") as HTMLInputElement
+      document.querySelector(".create-game__input") as HTMLInputElement
     ).value = `${window.location.href}#gameId=${gameId}`;
     createGameOptions?.classList.remove("none");
     break;
